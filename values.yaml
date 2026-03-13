@@ -625,6 +625,7 @@ core:
   ## Startup probe values
   startupProbe:
     enabled: true
+    path: /api/v2.0/ping
     initialDelaySeconds: 10
     periodSeconds: 10
     timeoutSeconds: 1
