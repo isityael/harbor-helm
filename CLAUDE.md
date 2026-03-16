@@ -63,6 +63,7 @@ helm template harbor . --set "expose.type=nodePort,expose.tls.auto.commonName=12
 | #2317 | Configurable health probe timeoutSeconds/failureThreshold |
 | #2330 | Parametrise gracePeriodTerminationSeconds + core startupProbe |
 | #2289 | Skip creating core/jobservice secrets when using external secrets |
+| #2305 | Configurable proxy cache and replication adapter whitelist |
 
 ## Consumer
 
