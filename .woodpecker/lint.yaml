@@ -1,0 +1,22 @@
+# Harbor Helm chart — lint pipeline
+#
+# Runs on pushes to sm-moshi/main and pull requests.
+when:
+  - event: [push, pull_request]
+    branch: sm-moshi/main
+
+steps:
+  - name: helm-lint
+    image: alpine/helm:3.17.3@sha256:cf2d3c3e3e4e4fb5e0d6e5d86ea1cdee18e139c41c81d446075fd7fdf8b0d993
+    commands:
+      - helm lint .
+
+  - name: template-ingress
+    image: alpine/helm:3.17.3@sha256:cf2d3c3e3e4e4fb5e0d6e5d86ea1cdee18e139c41c81d446075fd7fdf8b0d993
+    commands:
+      - helm template harbor . --set "expose.type=ingress" > /dev/null
+
+  - name: template-nodeport
+    image: alpine/helm:3.17.3@sha256:cf2d3c3e3e4e4fb5e0d6e5d86ea1cdee18e139c41c81d446075fd7fdf8b0d993
+    commands:
+      - helm template harbor . --set "expose.type=nodePort,expose.tls.auto.commonName=127.0.0.1" > /dev/null

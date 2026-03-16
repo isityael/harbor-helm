@@ -1,0 +1,45 @@
+# Harbor Helm chart — release pipeline
+#
+# Triggered by version tags (v*). Packages the chart, pushes the OCI
+# artifact to ghcr.io/sm-moshi/charts, and creates a GitHub release.
+#
+# Release workflow:
+#   1. Bump version/appVersion in Chart.yaml
+#   2. Commit: "build: bump chart to vX.Y.Z / appVersion vA.B.C"
+#   3. Tag:    git tag vX.Y.Z
+#   4. Push:   git push && git push --tags
+#   5. This pipeline runs automatically
+when:
+  - event: tag
+    ref: refs/tags/v*
+
+steps:
+  - name: helm-lint
+    image: alpine/helm:3.17.3@sha256:cf2d3c3e3e4e4fb5e0d6e5d86ea1cdee18e139c41c81d446075fd7fdf8b0d993
+    commands:
+      - helm lint .
+
+  - name: helm-package
+    image: alpine/helm:3.17.3@sha256:cf2d3c3e3e4e4fb5e0d6e5d86ea1cdee18e139c41c81d446075fd7fdf8b0d993
+    environment:
+      GHCR_USERNAME:
+        from_secret: github_username
+      GHCR_TOKEN:
+        from_secret: github_token
+    commands:
+      - helm package .
+      - helm registry login ghcr.io -u "$GHCR_USERNAME" -p "$GHCR_TOKEN"
+      - helm push harbor-*.tgz oci://ghcr.io/sm-moshi/charts
+
+  - name: github-release
+    image: woodpeckerci/plugin-release@sha256:a440616606c466da664c4fc3e73ad2d770e153528e72fb9ad94673a06563c72f
+    settings:
+      api_key:
+        from_secret: github_token
+      base_url: https://api.github.com
+      files:
+        - "harbor-*.tgz"
+      checksum:
+        - sha256
+      title: "${CI_COMMIT_TAG}"
+      draft: false
