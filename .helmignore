@@ -1,6 +1,9 @@
 .github/*
+.vscode/*
+.woodpecker/*
 docs/*
 .git/*
 .gitignore
 CONTRIBUTING.md
+CLAUDE.md
 test/*
