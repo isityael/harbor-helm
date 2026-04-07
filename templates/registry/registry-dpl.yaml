@@ -14,9 +14,6 @@ spec:
   revisionHistoryLimit: {{ .Values.registry.revisionHistoryLimit }}
   strategy:
     type: {{ .Values.updateStrategy.type }}
-    {{- if eq .Values.updateStrategy.type "Recreate" }}
-    rollingUpdate: null
-    {{- end }}
   selector:
     matchLabels:
 {{ include "harbor.matchLabels" . | indent 6 }}
@@ -73,7 +70,7 @@ spec:
       {{- end }}
       containers:
       - name: registry
-        image: {{ .Values.registry.registry.image.repository }}:{{ .Values.registry.registry.image.tag }}
+        image: {{ .Values.registry.registry.image.repository }}:{{- default (include "harbor.defaultImageTag" .) .Values.registry.registry.image.tag }}
         imagePullPolicy: {{ .Values.imagePullPolicy }}
         livenessProbe:
           httpGet:
@@ -204,7 +201,7 @@ spec:
 {{ include "harbor.caBundleVolumeMount" . | indent 8 }}
         {{- end }}
       - name: registryctl
-        image: {{ .Values.registry.controller.image.repository }}:{{ .Values.registry.controller.image.tag }}
+        image: {{ .Values.registry.controller.image.repository }}:{{- default (include "harbor.defaultImageTag" .) .Values.registry.controller.image.tag }}
         imagePullPolicy: {{ .Values.imagePullPolicy }}
         livenessProbe:
           httpGet:
