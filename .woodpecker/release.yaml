@@ -32,7 +32,7 @@ steps:
       - helm push harbor-*.tgz oci://ghcr.io/sm-moshi/charts
 
   - name: github-release
-    image: woodpeckerci/plugin-release@sha256:9d61f12cc0ced9deaf48204787d9608706d37b707bf5bcc2afe0d6c8bfd6c538
+    image: woodpeckerci/plugin-release@sha256:7b8cddaf649aebee4a78b278c4a3c92ec6171638211514bdf9c095000108444d
     settings:
       api_key:
         from_secret: github_token
