@@ -41,7 +41,6 @@ class HarborChartFreshInstallPipelineExecutor extends FreshInstallPipelineExecut
                 # build the image
                 docker build -t deployer:dev -f test/e2e/Dockerfile test/e2e
                 # clean up the namespace
-                echo KUBE_CONFIG_FILE_PATH is \${KUBE_CONFIG_FILE_PATH}
                 docker run -i --rm -v \${KUBE_CONFIG_FILE_PATH}:/root/.kube/config \
                     -e AWS_ACCESS_KEY_ID=\${s3_access_key} \
                     -e AWS_SECRET_ACCESS_KEY=\${s3_secret_key} \
