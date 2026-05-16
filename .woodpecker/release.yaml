@@ -15,12 +15,12 @@ when:
 
 steps:
   - name: helm-lint
-    image: dhi.io/helm:4.1.4-debian13-dev@sha256:512a0baf6b24e133df0745005bddca5f34f47203a6ae9de1443f6b808ca03d2d
+    image: dhi.io/helm:4.2.0-debian13-dev@sha256:021998f97b757f049b0f51bd92e516e879c85babf63d38c89622e6eeb4a17261
     commands:
       - helm lint .
 
   - name: helm-package
-    image: dhi.io/helm:4.1.4-debian13-dev@sha256:512a0baf6b24e133df0745005bddca5f34f47203a6ae9de1443f6b808ca03d2d
+    image: dhi.io/helm:4.2.0-debian13-dev@sha256:021998f97b757f049b0f51bd92e516e879c85babf63d38c89622e6eeb4a17261
     environment:
       GHCR_USERNAME:
         from_secret: github_username
