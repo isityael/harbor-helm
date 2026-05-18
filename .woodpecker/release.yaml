@@ -1,7 +1,7 @@
 # Harbor Helm chart — release pipeline
 #
 # Triggered by version tags (v*). Packages the chart, pushes the OCI
-# artifact to ghcr.io/sm-moshi/charts, and creates a GitHub release.
+# artifact to ghcr.io/yaelmoshi/charts, and creates a GitHub release.
 #
 # Release workflow:
 #   1. Bump version/appVersion in Chart.yaml
@@ -29,7 +29,7 @@ steps:
     commands:
       - helm package .
       - helm registry login ghcr.io -u "$GHCR_USERNAME" -p "$GHCR_TOKEN"
-      - helm push harbor-*.tgz oci://ghcr.io/sm-moshi/charts
+      - helm push harbor-*.tgz oci://ghcr.io/yaelmoshi/charts
 
   - name: github-release
     image: dhi.io/alpine-base:3.23-dev@sha256:f7b74374e3e07e765ff2dabec26e636b55cb222b4e905b9251405ef47637f9af
@@ -40,7 +40,7 @@ steps:
       - apk add --no-cache -X https://dl-cdn.alpinelinux.org/alpine/v3.23/community github-cli
       - |
         export GH_TOKEN="${GITHUB_TOKEN}"
-        REPO="sm-moshi/harbor-helm"
+        REPO="yaelmoshi/harbor-helm"
         ARTIFACT="harbor-${CI_COMMIT_TAG#v}.tgz"
 
         test -f "$ARTIFACT" || { echo "Missing chart package: $ARTIFACT"; exit 1; }

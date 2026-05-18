@@ -1,11 +1,11 @@
 # CLAUDE — Runtime Instructions
 
-This is a **fork of [goharbor/harbor-helm](https://github.com/goharbor/harbor-helm)** maintained by sm-moshi.
+This is a **fork of [goharbor/harbor-helm](https://github.com/goharbor/harbor-helm)** maintained by yaelmoshi.
 
 ## Purpose
 
 Carry unreleased upstream fixes and cherry-picked PRs that upstream maintainers haven't merged.
-Published as an OCI Helm chart to `oci://ghcr.io/sm-moshi/charts/harbor`.
+Published as an OCI Helm chart to `oci://ghcr.io/yaelmoshi/charts/harbor`.
 
 ## Key rules
 
@@ -42,7 +42,7 @@ git rebase upstream/main
 ```bash
 git tag v<version>
 git push origin v<version>
-# GHA workflow packages and pushes to ghcr.io/sm-moshi/charts
+# GHA workflow packages and pushes to ghcr.io/yaelmoshi/charts
 ```
 
 ## Validation
@@ -67,7 +67,7 @@ helm template harbor . --set "expose.type=nodePort,expose.tls.auto.commonName=12
 
 ## Consumer
 
-The infra repo (`sm-moshi/infra`) consumes this chart as an OCI dependency in
+The infra repo (`yaelmoshi/infra`) consumes this chart as an OCI dependency in
 `apps/user/harbor/Chart.yaml`. This repo is **not** a submodule.
 
 ## Style
