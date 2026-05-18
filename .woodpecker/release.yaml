@@ -32,15 +32,24 @@ steps:
       - helm push harbor-*.tgz oci://ghcr.io/sm-moshi/charts
 
   - name: github-release
-    image: woodpeckerci/plugin-release@sha256:dd4ee2205655310d165afba0ae41a1f946cdb028ad14e96c4da7b035cfa8b768
-    settings:
-      api_key:
+    image: dhi.io/alpine-base:3.23-dev@sha256:f7b74374e3e07e765ff2dabec26e636b55cb222b4e905b9251405ef47637f9af
+    environment:
+      GITHUB_TOKEN:
         from_secret: github_token
-      base_url: https://api.github.com
-      files:
-        - "harbor-*.tgz"
-      checksum:
-        - sha256
-      title: "${CI_COMMIT_TAG}"
-      note: "auto"
-      draft: false
+    commands:
+      - apk add --no-cache -X https://dl-cdn.alpinelinux.org/alpine/v3.23/community github-cli
+      - |
+        export GH_TOKEN="${GITHUB_TOKEN}"
+        REPO="sm-moshi/harbor-helm"
+        ARTIFACT="harbor-${CI_COMMIT_TAG#v}.tgz"
+
+        test -f "$ARTIFACT" || { echo "Missing chart package: $ARTIFACT"; exit 1; }
+        sha256sum "$ARTIFACT" > SHA256sum.txt
+
+        if gh release view "${CI_COMMIT_TAG}" --repo "$REPO" >/dev/null 2>&1; then
+          gh release edit "${CI_COMMIT_TAG}" --repo "$REPO" --title "${CI_COMMIT_TAG}" --notes "auto" --draft=false --prerelease=false
+        else
+          gh release create "${CI_COMMIT_TAG}" --repo "$REPO" --title "${CI_COMMIT_TAG}" --notes "auto" --draft=false --prerelease=false --verify-tag
+        fi
+
+        gh release upload "${CI_COMMIT_TAG}" --repo "$REPO" "$ARTIFACT" SHA256sum.txt --clobber
