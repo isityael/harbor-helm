@@ -608,6 +608,10 @@ portal:
   #   command: [ 'sh', '-c', "sleep 20" ]
 
 core:
+  # Optional Deployment strategy override for core. Keep unset to use the
+  # Kubernetes default RollingUpdate behavior.
+  # updateStrategy:
+  #   type: Recreate
   image:
     repository: docker.io/goharbor/harbor-core
     # By default the version of the chart will be used as the tag
