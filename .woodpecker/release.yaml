@@ -32,7 +32,7 @@ steps:
       - helm push harbor-*.tgz oci://ghcr.io/yaelmoshi/charts
 
   - name: github-release
-    image: dhi.io/alpine-base:3.23-dev@sha256:f7b74374e3e07e765ff2dabec26e636b55cb222b4e905b9251405ef47637f9af
+    image: dhi.io/alpine-base:3.23-dev@sha256:98af260ad2332981ba1abb2c65e3c8fe4b11db65ed3701c4e4ea49ceba7c5d1f
     environment:
       GITHUB_TOKEN:
         from_secret: github_token
