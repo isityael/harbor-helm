@@ -7,16 +7,16 @@ when:
 
 steps:
   - name: helm-lint
-    image: dhi.io/helm:4.2.0-debian13-dev@sha256:0f04cd9a825b63eb4d8d02de559e8c99a53290c07a8e01d0fa68845b9c7a98e9
+    image: dhi.io/helm:4.2.0-debian13-dev@sha256:d9782ea3cdd15b0f6bdb212acfd883c6793fce0e4d9e8a540d2c1df07ba85627
     commands:
       - helm lint .
 
   - name: template-ingress
-    image: dhi.io/helm:4.2.0-debian13-dev@sha256:0f04cd9a825b63eb4d8d02de559e8c99a53290c07a8e01d0fa68845b9c7a98e9
+    image: dhi.io/helm:4.2.0-debian13-dev@sha256:d9782ea3cdd15b0f6bdb212acfd883c6793fce0e4d9e8a540d2c1df07ba85627
     commands:
       - helm template harbor . --set "expose.type=ingress" > /dev/null
 
   - name: template-nodeport
-    image: dhi.io/helm:4.2.0-debian13-dev@sha256:0f04cd9a825b63eb4d8d02de559e8c99a53290c07a8e01d0fa68845b9c7a98e9
+    image: dhi.io/helm:4.2.0-debian13-dev@sha256:d9782ea3cdd15b0f6bdb212acfd883c6793fce0e4d9e8a540d2c1df07ba85627
     commands:
       - helm template harbor . --set "expose.type=nodePort,expose.tls.auto.commonName=127.0.0.1" > /dev/null
