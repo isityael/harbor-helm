@@ -334,6 +334,27 @@ tests:
           path: spec.template.spec.containers[0].env[2].valueFrom.secretKeyRef.key
           value: password
 
+  - it: DBCredentialsExistingSecretPasswordKey
+    set:
+      database:
+        external:
+          existingSecret: db-secret-name
+          existingSecretPasswordKey: POSTGRES_PASSWORD
+    template: templates/core/core-dpl.yaml
+    asserts:
+      - lengthEqual:
+          path: spec.template.spec.containers[0].env
+          count: 3
+      - equal:
+          path: spec.template.spec.containers[0].env[2].name
+          value: POSTGRESQL_PASSWORD
+      - equal:
+          path: spec.template.spec.containers[0].env[2].valueFrom.secretKeyRef.name
+          value: db-secret-name
+      - equal:
+          path: spec.template.spec.containers[0].env[2].valueFrom.secretKeyRef.key
+          value: POSTGRES_PASSWORD
+
   - it: RegistryCredentials
     set:
       registry:

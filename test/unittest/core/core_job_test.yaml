@@ -64,6 +64,27 @@ tests:
       - equal:
           path: spec.template.spec.containers[0].command
           value: ["/harbor/harbor_core", "-mode=migrate"]
+
+  - it: DBCredentialsExistingSecretPasswordKey
+    set:
+      enableMigrateHelmHook: true
+      database:
+        type: external
+        external:
+          existingSecret: db-secret-name
+          existingSecretPasswordKey: POSTGRES_PASSWORD
+    template: templates/core/core-pre-upgrade-job.yaml
+    asserts:
+      - equal:
+          path: spec.template.spec.containers[0].env[0].name
+          value: POSTGRESQL_PASSWORD
+      - equal:
+          path: spec.template.spec.containers[0].env[0].valueFrom.secretKeyRef.name
+          value: db-secret-name
+      - equal:
+          path: spec.template.spec.containers[0].env[0].valueFrom.secretKeyRef.key
+          value: POSTGRES_PASSWORD
+
   - it: NodeSelector
     set:
       enableMigrateHelmHook: true

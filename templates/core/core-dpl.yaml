@@ -144,7 +144,7 @@ spec:
             valueFrom:
               secretKeyRef:
                 name: {{ .Values.database.external.existingSecret }}
-                key: password
+                key: {{ .Values.database.external.existingSecretPasswordKey }}
           {{- end }}
           {{- if .Values.registry.credentials.existingSecret }}
           - name: REGISTRY_CREDENTIAL_PASSWORD
