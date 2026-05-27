@@ -1151,8 +1151,9 @@ database:
     username: "user"
     password: "password"
     coreDatabase: "registry"
-    # if using existing secret, the key must be "password"
+    # if using existing secret, configure the password key below
     existingSecret: ""
+    existingSecretPasswordKey: password
     # "disable" - No SSL
     # "require" - Always SSL (skip verification)
     # "verify-ca" - Always SSL (verify that the certificate presented by the
