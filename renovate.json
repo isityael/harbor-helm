@@ -21,7 +21,9 @@
     {
       "customType": "regex",
       "description": "Kubernetes CLI version used by the e2e test image",
-      "fileMatch": ["/test/e2e/Dockerfile$/"],
+      "managerFilePatterns": [
+        "//test/e2e/Dockerfile$//"
+      ],
       "matchStrings": [
         "ARG KUBECTL_VERSION=\"(?<currentValue>v[^\"]+)\""
       ],
@@ -31,7 +33,9 @@
     {
       "customType": "regex",
       "description": "Helm CLI version used by the e2e test image",
-      "fileMatch": ["/test/e2e/Dockerfile$/"],
+      "managerFilePatterns": [
+        "//test/e2e/Dockerfile$//"
+      ],
       "matchStrings": [
         "ARG HELM_VERSION=\"v(?<currentValue>[^\"]+)\""
       ],
