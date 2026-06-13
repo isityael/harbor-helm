@@ -2,7 +2,7 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "forkProcessing": "enabled",
   "extends": [
-    "github>yaelmoshi/infra//.github/renovate/base.json",
+    "local>m0sh1/infra//.github/renovate/base.json",
     "config:best-practices",
     ":preserveSemverRanges"
   ],
@@ -21,7 +21,7 @@
     {
       "customType": "regex",
       "description": "Kubernetes CLI version used by the e2e test image",
-      "managerFilePatterns": ["/test/e2e/Dockerfile$/"],
+      "fileMatch": ["/test/e2e/Dockerfile$/"],
       "matchStrings": [
         "ARG KUBECTL_VERSION=\"(?<currentValue>v[^\"]+)\""
       ],
@@ -31,7 +31,7 @@
     {
       "customType": "regex",
       "description": "Helm CLI version used by the e2e test image",
-      "managerFilePatterns": ["/test/e2e/Dockerfile$/"],
+      "fileMatch": ["/test/e2e/Dockerfile$/"],
       "matchStrings": [
         "ARG HELM_VERSION=\"v(?<currentValue>[^\"]+)\""
       ],
