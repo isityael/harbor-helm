@@ -15,12 +15,12 @@ when:
 
 steps:
   - name: helm-lint
-    image: dhi.io/helm:4.2.0-debian13-dev@sha256:bc45b4cdfecd8d1e54600e351874b69d462fef295903a9e57c133ae16593c4c8
+    image: dhi.io/helm:4.2.1-debian13-dev@sha256:6de8de96ef45034b16da89d5635503ddff27cc2bff61c94b2158c45d234d8594
     commands:
       - helm lint .
 
   - name: helm-package
-    image: dhi.io/helm:4.2.0-debian13-dev@sha256:bc45b4cdfecd8d1e54600e351874b69d462fef295903a9e57c133ae16593c4c8
+    image: dhi.io/helm:4.2.1-debian13-dev@sha256:6de8de96ef45034b16da89d5635503ddff27cc2bff61c94b2158c45d234d8594
     environment:
       GHCR_USERNAME:
         from_secret: github_username
@@ -32,7 +32,7 @@ steps:
       - helm push harbor-*.tgz oci://ghcr.io/yaelmoshi/charts
 
   - name: github-release
-    image: dhi.io/alpine-base:3.23-dev@sha256:8e77884b4e74639e217160cd7dd8af957d23b44a59392b117e4da6ca8c2e2c6e
+    image: dhi.io/alpine-base:3.24-dev@sha256:954a01eddda3aefb289de167b406d5542b8da4b9ae2d7216d67ab68486480284
     environment:
       GITHUB_TOKEN:
         from_secret: github_token
