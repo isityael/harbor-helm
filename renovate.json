@@ -11,8 +11,19 @@
     "dockerfile",
     "gomod",
     "helmv3",
+    "helm-values",
     "woodpecker"
   ],
+  "helmv3": {
+    "managerFilePatterns": [
+      "/Chart\\.yaml$/"
+    ]
+  },
+  "helm-values": {
+    "managerFilePatterns": [
+      "/values\\.yaml$/"
+    ]
+  },
   "ignorePaths": [
     "**/bower_components/**",
     "**/node_modules/**"
@@ -44,6 +55,23 @@
     }
   ],
   "packageRules": [
+    {
+      "description": "Patch-bump the Harbor Helm chart version when Renovate changes chart dependencies or values",
+      "matchManagers": ["helmv3", "helm-values"],
+      "matchFileNames": [
+        "Chart.yaml",
+        "values.yaml"
+      ],
+      "addLabels": ["helm"],
+      "bumpVersions": [
+        {
+          "name": "Patch-bump Harbor Helm Chart.yaml",
+          "filePatterns": ["Chart.yaml"],
+          "matchStrings": ["version:\\s*\"?v?(?<version>\\d+\\.\\d+\\.\\d+)\"?"],
+          "bumpType": "patch"
+        }
+      ]
+    },
     {
       "matchManagers": ["custom.regex"],
       "addLabels": ["test-tooling"]
