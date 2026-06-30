@@ -40,7 +40,7 @@ steps:
       - apk add --no-cache -X https://dl-cdn.alpinelinux.org/alpine/v3.23/community github-cli
       - |
         export GH_TOKEN="${GITHUB_TOKEN}"
-        REPO="yaelmoshi/harbor-helm"
+        REPO="isityael/harbor-helm"
         ARTIFACT="harbor-${CI_COMMIT_TAG#v}.tgz"
 
         test -f "$ARTIFACT" || { echo "Missing chart package: $ARTIFACT"; exit 1; }
