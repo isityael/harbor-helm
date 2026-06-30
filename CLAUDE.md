@@ -1,11 +1,11 @@
 # CLAUDE — Runtime Instructions
 
-This is a **fork of [goharbor/harbor-helm](https://github.com/goharbor/harbor-helm)** maintained by yaelmoshi.
+This is a **fork of [goharbor/harbor-helm](https://github.com/goharbor/harbor-helm)** maintained by isityael.
 
 ## Purpose
 
 Carry unreleased upstream fixes and cherry-picked PRs that upstream maintainers haven't merged.
-Published as an OCI Helm chart to `oci://ghcr.io/yaelmoshi/charts/harbor`.
+Published as an OCI Helm chart to `oci://ghcr.io/isityael/charts/harbor`.
 
 ## Key rules
 
@@ -42,7 +42,7 @@ git rebase upstream/main
 ```bash
 git tag v<version>
 git push origin v<version>
-# GHA workflow packages and pushes to ghcr.io/yaelmoshi/charts
+# GHA workflow packages and pushes to ghcr.io/isityael/charts
 ```
 
 ## Validation
