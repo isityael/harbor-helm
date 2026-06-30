@@ -500,9 +500,8 @@ containerSecurityContext:
 # If service exposed via "ingress", the Nginx will not be used
 nginx:
   image:
-    repository: docker.io/goharbor/nginx-photon
-    # By default the version of the chart will be used as the tag
-    # tag: dev
+    repository: ghcr.io/yaelmoshi/nginx-photon
+    tag: v2.16.0-sm24
   # set the service account to be used, default if left empty
   serviceAccountName: ""
   # mount the service account token
@@ -550,9 +549,8 @@ nginx:
 
 portal:
   image:
-    repository: docker.io/goharbor/harbor-portal
-    # By default the version of the chart will be used as the tag
-    # tag: dev
+    repository: ghcr.io/yaelmoshi/harbor-portal
+    tag: v2.16.0-sm24
   # set the service account to be used, default if left empty
   serviceAccountName: ""
   # mount the service account token
@@ -613,9 +611,8 @@ core:
   # updateStrategy:
   #   type: Recreate
   image:
-    repository: docker.io/goharbor/harbor-core
-    # By default the version of the chart will be used as the tag
-    # tag: dev
+    repository: ghcr.io/yaelmoshi/harbor-core
+    tag: v2.16.0-sm24
   # set the service account to be used, default if left empty
   serviceAccountName: ""
   # mount the service account token
@@ -752,9 +749,8 @@ core:
 
 jobservice:
   image:
-    repository: docker.io/goharbor/harbor-jobservice
-    # By default the version of the chart will be used as the tag
-    # tag: dev
+    repository: ghcr.io/yaelmoshi/harbor-jobservice
+    tag: v2.16.0-sm24
   replicas: 1
   podDisruptionBudget:
     enabled: false
@@ -839,9 +835,8 @@ jobservice:
 registry:
   registry:
     image:
-      repository: docker.io/goharbor/registry-photon
-      # By default the version of the chart will be used as the tag
-      # tag: dev
+      repository: ghcr.io/yaelmoshi/registry-photon
+      tag: v2.16.0-sm24
     # resources:
     #  requests:
     #    memory: 256Mi
@@ -863,9 +858,8 @@ registry:
       successThreshold: 1
   controller:
     image:
-      repository: docker.io/goharbor/harbor-registryctl
-      # By default the version of the chart will be used as the tag
-      # tag: dev
+      repository: ghcr.io/yaelmoshi/harbor-registryctl
+      tag: v2.16.0-sm24
     # resources:
     #  requests:
     #    memory: 256Mi
@@ -963,10 +957,9 @@ trivy:
   enabled: true
   image:
     # repository the repository for Trivy adapter image
-    repository: docker.io/goharbor/trivy-adapter-photon
+    repository: ghcr.io/yaelmoshi/harbor-trivy-adapter
     # tag the tag for Trivy adapter image
-    # By default the version of the chart will be used as the tag
-    # tag: dev
+    tag: v2.16.0-sm24
   # set the service account to be used, default if left empty
   serviceAccountName: ""
   # mount the service account token
@@ -1088,9 +1081,8 @@ database:
   type: internal
   internal:
     image:
-      repository: docker.io/goharbor/harbor-db
-      # By default the version of the chart will be used as the tag
-      # tag: dev
+      repository: ghcr.io/yaelmoshi/harbor-db
+      tag: v2.16.0-sm24
     # set the service account to be used, default if left empty
     serviceAccountName: ""
     # mount the service account token
@@ -1180,9 +1172,8 @@ redis:
   type: internal
   internal:
     image:
-      repository: docker.io/goharbor/valkey-photon
-      # By default the version of the chart will be used as the tag
-      # tag: dev
+      repository: ghcr.io/yaelmoshi/valkey-photon
+      tag: v2.16.0-sm24
     # set the service account to be used, default if left empty
     serviceAccountName: ""
     # mount the service account token
@@ -1266,9 +1257,8 @@ redis:
 
 exporter:
   image:
-    repository: docker.io/goharbor/harbor-exporter
-    # By default the version of the chart will be used as the tag
-    # tag: dev
+    repository: ghcr.io/yaelmoshi/harbor-exporter
+    tag: v2.16.0-sm24
   serviceAccountName: ""
   # mount the service account token
   automountServiceAccountToken: false
