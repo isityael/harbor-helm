@@ -1,7 +1,7 @@
 suite: NginxDeployment
 
 tests:
-  - it: DefaultsImageTagToAppVersion
+  - it: UsesDefaultGhcrImageTag
     set:
       expose:
         type: nodePort
@@ -12,7 +12,7 @@ tests:
     asserts:
       - equal:
           path: spec.template.spec.containers[0].image
-          value: docker.io/goharbor/nginx-photon:v2.15.1
+          value: ghcr.io/yaelmoshi/nginx-photon:v2.16.0-sm24
 
   - it: UsesConfiguredImageTag
     set:
