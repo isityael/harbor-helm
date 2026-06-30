@@ -1,7 +1,7 @@
 # Harbor Helm chart — release pipeline
 #
 # Triggered by version tags (v*). Packages the chart, pushes the OCI
-# artifact to ghcr.io/yaelmoshi/charts, and creates a GitHub release.
+# artifact to ghcr.io/isityael/charts, and creates a GitHub release.
 #
 # Release workflow:
 #   1. Bump version/appVersion in Chart.yaml
@@ -29,7 +29,7 @@ steps:
     commands:
       - helm package .
       - helm registry login ghcr.io -u "$GHCR_USERNAME" -p "$GHCR_TOKEN"
-      - helm push harbor-*.tgz oci://ghcr.io/yaelmoshi/charts
+      - helm push harbor-*.tgz oci://ghcr.io/isityael/charts
 
   - name: github-release
     image: dhi.io/alpine-base:3.24-dev@sha256:74230b37711de2e5cbc42b8fbd0bb019417ce99b05e5792390d75cb6c948a560
