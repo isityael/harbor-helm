@@ -7,7 +7,7 @@ when:
 
 steps:
   - name: chart-version-guard
-    image: ghcr.io/isityael/chart-version-guard:main@sha256:a829c1593ea6ad14c80c3cccdd95d8877b4bc43303d0c0328967425a0409e731
+    image: ghcr.io/isityael/chart-version-guard:main@sha256:13c08d4a71287729dbcd97cd83bea6cfed3848d97402cd22b30bca8532d49ba9
     commands:
       - chart-version-guard check --ci woodpecker --repo .
 
