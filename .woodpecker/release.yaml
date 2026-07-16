@@ -46,9 +46,11 @@ steps:
 
         test -f "$ARTIFACT" || { echo "Missing chart package: $ARTIFACT"; exit 1; }
         sha256sum "$ARTIFACT" > SHA256sum.txt
-        gh api "repos/${REPO}/git/refs" \
-          -f ref="refs/tags/${CI_COMMIT_TAG}" \
-          -f sha="${CI_COMMIT_SHA}" >/dev/null 2>&1 || true
+        if ! gh api "repos/${REPO}/git/ref/tags/${CI_COMMIT_TAG}" >/dev/null 2>&1; then
+          gh api "repos/${REPO}/git/refs" \
+            -f ref="refs/tags/${CI_COMMIT_TAG}" \
+            -f sha="$(git rev-parse HEAD)" >/dev/null
+        fi
 
         if gh release view "${CI_COMMIT_TAG}" --repo "$REPO" >/dev/null 2>&1; then
           gh release edit "${CI_COMMIT_TAG}" --repo "$REPO" --title "${CI_COMMIT_TAG}" --notes "auto" --draft=false --prerelease=false
