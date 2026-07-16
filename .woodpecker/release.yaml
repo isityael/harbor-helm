@@ -37,7 +37,7 @@ steps:
       GITHUB_TOKEN:
         from_secret: github_token
     commands:
-      - apk add --no-cache github-cli
+      - apk add --no-cache -X https://dl-cdn.alpinelinux.org/alpine/v3.24/community github-cli
       - |
         test -n "$GITHUB_TOKEN" || { echo "Missing github_token secret"; exit 1; }
         export GH_TOKEN="${GITHUB_TOKEN}"
