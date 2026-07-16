@@ -508,7 +508,7 @@ containerSecurityContext:
 nginx:
   image:
     repository: ghcr.io/isityael/nginx-photon
-    tag: v2.16.0-yael.3@sha256:be3457cd081b0ea24a9fce3922bfad7f824a166d49a49e090b13c5860cf427b9
+    tag: v2.16.0-yael.5@sha256:4d0c518a9f8307427829aab16ce4f598d8435466e463148ca74e7d5ae46d5b57
   # set the service account to be used, default if left empty
   serviceAccountName: ""
   # mount the service account token
@@ -557,7 +557,7 @@ nginx:
 portal:
   image:
     repository: ghcr.io/isityael/harbor-portal
-    tag: v2.16.0-yael.3@sha256:03d3fe1039506a2764f4d7e64ac2d22219cc077c06962f1712db33548d4ebef7
+    tag: v2.16.0-yael.5@sha256:9431c8e08129810bad5fc97350d2afd6985d6143486edffcdd5e4233f6ad7ff9
   # set the service account to be used, default if left empty
   serviceAccountName: ""
   # mount the service account token
@@ -619,7 +619,7 @@ core:
   #   type: Recreate
   image:
     repository: ghcr.io/isityael/harbor-core
-    tag: v2.16.0-yael.3@sha256:6744f199ea46cdfb494d56731f92402a908f460eaf311fb99673598d64e60bb5
+    tag: v2.16.0-yael.5@sha256:b723b8412a026c9b788b0b00c4a6080ceb39867bc34e86d415ea6065fa632589
   # set the service account to be used, default if left empty
   serviceAccountName: ""
   # mount the service account token
@@ -757,7 +757,7 @@ core:
 jobservice:
   image:
     repository: ghcr.io/isityael/harbor-jobservice
-    tag: v2.16.0-yael.3@sha256:7b84bcdc454acc9d016c8d3b8db3bec3a149690c7272d2bc0c804d7d88072892
+    tag: v2.16.0-yael.5@sha256:29a33e67acd146cae71ccdb81a842ea81862e215a57702f4b7f12f843b039923
   replicas: 1
   podDisruptionBudget:
     enabled: false
@@ -843,7 +843,7 @@ registry:
   registry:
     image:
       repository: ghcr.io/isityael/registry-photon
-      tag: v2.16.0-yael.3@sha256:dd2ba63bb6580a8f0a38b6cc33a1ba61dd4ba291ba049213763977269412f8d1
+      tag: v2.16.0-yael.5@sha256:cb094997728362017fc4c9931cf850fe9d032f31bd9cd206eba035ca445c1ee6
     # resources:
     #  requests:
     #    memory: 256Mi
@@ -866,7 +866,7 @@ registry:
   controller:
     image:
       repository: ghcr.io/isityael/harbor-registryctl
-      tag: v2.16.0-yael.3@sha256:611ca6035ceab71848fd48b64c032e7b45c74b3642324ea9919d99f9b15c33a6
+      tag: v2.16.0-yael.5@sha256:c0cec012772abad20efcf12a831d4ced2e5cd7e4e03268b931a53badb2476048
     # resources:
     #  requests:
     #    memory: 256Mi
@@ -966,7 +966,7 @@ trivy:
     # repository the repository for Trivy adapter image
     repository: ghcr.io/isityael/harbor-trivy-adapter
     # tag the tag for Trivy adapter image
-    tag: v2.16.0-yael.3@sha256:184694a9f7d1e6555bc450303186ea407c0721e46c086c63631d22fca69220c3
+    tag: v2.16.0-yael.5@sha256:65c2ab7c5af9f278097ed66480d0dc35ff4438b76b736cd7e6339702a46572e1
   # set the service account to be used, default if left empty
   serviceAccountName: ""
   # mount the service account token
@@ -1089,7 +1089,7 @@ database:
   internal:
     image:
       repository: ghcr.io/isityael/harbor-db
-      tag: v2.16.0-yael.3@sha256:1ebc129d932921919cee36d214dd0336c160a65e9d2d861f4f1e9f6f62a959cb
+      tag: v2.16.0-yael.5@sha256:5a2ce39f5aee6316f7fe3fc7c55ef4335a8251fc11678239141ce2de32fbb2f8
     # set the service account to be used, default if left empty
     serviceAccountName: ""
     # mount the service account token
@@ -1180,7 +1180,7 @@ redis:
   internal:
     image:
       repository: ghcr.io/isityael/valkey-photon
-      tag: v2.16.0-yael.3@sha256:9b494e6a74b135bff94fc05a13462398632b278627c58b52d58e7885e8f2fc63
+      tag: v2.16.0-yael.5@sha256:58cb5b70f2ca72438486202b4b3808741929d7fad8b42cdb39dfd315c833c09a
     # set the service account to be used, default if left empty
     serviceAccountName: ""
     # mount the service account token
@@ -1265,7 +1265,7 @@ redis:
 exporter:
   image:
     repository: ghcr.io/isityael/harbor-exporter
-    tag: v2.16.0-yael.3@sha256:5996e54a8704b239f1841bb24f190c20958b4d12a83bf9bbf4d5e97ee45c723e
+    tag: v2.16.0-yael.5@sha256:6e2b5f856c96145fcdb695dda6e7e97b135ccc3f630cf74ad8d77ef7fc0282c9
   serviceAccountName: ""
   # mount the service account token
   automountServiceAccountToken: false
