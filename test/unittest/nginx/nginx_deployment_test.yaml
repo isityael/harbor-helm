@@ -12,7 +12,7 @@ tests:
     asserts:
       - equal:
           path: spec.template.spec.containers[0].image
-          value: ghcr.io/isityael/nginx-photon:v2.16.0-yael.1
+          value: ghcr.io/isityael/nginx-photon:v2.16.0-yael.5@sha256:4d0c518a9f8307427829aab16ce4f598d8435466e463148ca74e7d5ae46d5b57
 
   - it: UsesConfiguredImageTag
     set:
