@@ -1,9 +1,9 @@
 # Harbor Helm chart — lint pipeline
 #
-# Runs on pushes to sm-moshi/main and pull requests.
+# Runs on pushes to isityael/main and pull requests.
 when:
   - event: [push, pull_request]
-    branch: sm-moshi/main
+    branch: isityael/main
 
 steps:
   - name: chart-version-guard
