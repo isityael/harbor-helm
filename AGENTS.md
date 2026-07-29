@@ -16,11 +16,12 @@ Published as an OCI Helm chart to `oci://ghcr.io/isityael/charts/harbor`.
 - **Version scheme:** `version` in Chart.yaml tracks our release (e.g. `1.19.0`).
   `appVersion` tracks the Harbor release (e.g. `v2.15.0-rc2`).
 - **No secrets or credentials** in this repo. Chart is published via GHA with `GITHUB_TOKEN`.
-- **Branch:** `sm-moshi/main` is the primary branch. Upstream `main` is tracked via `upstream` remote.
+- **Branch:** `isityael/main` is the primary branch. Upstream `main` is tracked via `upstream` remote.
 
 ## Workflow
 
 ### Adding a new upstream PR fix
+
 ```bash
 git fetch upstream pull/<PR>/head:pr-<PR>
 git cherry-pick <commit-hash>
@@ -30,6 +31,7 @@ helm template harbor . -f values.yaml
 ```
 
 ### Rebasing on a new upstream release
+
 ```bash
 git fetch upstream
 git rebase upstream/main
@@ -39,6 +41,7 @@ git rebase upstream/main
 ```
 
 ### Releasing
+
 ```bash
 git tag v<version>
 git push origin v<version>
@@ -46,6 +49,7 @@ git push origin v<version>
 ```
 
 ## Validation
+
 ```bash
 helm lint .
 helm template harbor . -f values.yaml
@@ -54,16 +58,16 @@ helm template harbor . --set "expose.type=nodePort,expose.tls.auto.commonName=12
 
 ## Cherry-picked PRs (v1.19.0)
 
-| PR | Description |
-|----|-------------|
+| PR    | Description                                                        |
+| ----- | ------------------------------------------------------------------ |
 | #2310 | Fix: reuse existing secretKey/TLS certs (fixes ArgoCD drift #2263) |
-| #2307 | Default image tag to chart appVersion |
-| #2314 | Fix rollingUpdate checks for jobservice/registry |
-| #2312 | Fix ArgoCD diff in httproute |
-| #2317 | Configurable health probe timeoutSeconds/failureThreshold |
-| #2330 | Parametrise gracePeriodTerminationSeconds + core startupProbe |
-| #2289 | Skip creating core/jobservice secrets when using external secrets |
-| #2305 | Configurable proxy cache and replication adapter whitelist |
+| #2307 | Default image tag to chart appVersion                              |
+| #2314 | Fix rollingUpdate checks for jobservice/registry                   |
+| #2312 | Fix ArgoCD diff in httproute                                       |
+| #2317 | Configurable health probe timeoutSeconds/failureThreshold          |
+| #2330 | Parametrise gracePeriodTerminationSeconds + core startupProbe      |
+| #2289 | Skip creating core/jobservice secrets when using external secrets  |
+| #2305 | Configurable proxy cache and replication adapter whitelist         |
 
 ## Consumer
 
