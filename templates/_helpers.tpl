@@ -643,6 +643,16 @@ app: "{{ template "harbor.name" . }}"
 {{- end -}}
 
 {{/*
+Render a first-party image reference with an optional immutable digest.
+The tag remains present when a digest is configured to keep references readable.
+*/}}
+{{- define "harbor.image" -}}
+  {{- $tag := default (include "harbor.defaultImageTag" .root) .image.tag -}}
+  {{- printf "%s:%s" .image.repository $tag -}}
+  {{- with .image.digest -}}@{{ . }}{{- end -}}
+{{- end -}}
+
+{{/*
 Determine if the core secret should be created.
 Returns "true" if any data field would be populated, "false" if all fields use external secrets.
 */}}
