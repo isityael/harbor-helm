@@ -508,7 +508,7 @@ containerSecurityContext:
 nginx:
   image:
     repository: ghcr.io/isityael/nginx-photon
-    tag: v2.16.0-yael.5
+    tag: v2.16.0-yael.5@sha256:4d0c518a9f8307427829aab16ce4f598d8435466e463148ca74e7d5ae46d5b57
     digest: sha256:4d0c518a9f8307427829aab16ce4f598d8435466e463148ca74e7d5ae46d5b57
   # set the service account to be used, default if left empty
   serviceAccountName: ""
@@ -558,7 +558,7 @@ nginx:
 portal:
   image:
     repository: ghcr.io/isityael/harbor-portal
-    tag: v2.16.0-yael.5
+    tag: v2.16.0-yael.5@sha256:9431c8e08129810bad5fc97350d2afd6985d6143486edffcdd5e4233f6ad7ff9
     digest: sha256:9431c8e08129810bad5fc97350d2afd6985d6143486edffcdd5e4233f6ad7ff9
   # set the service account to be used, default if left empty
   serviceAccountName: ""
@@ -621,7 +621,7 @@ core:
   #   type: Recreate
   image:
     repository: ghcr.io/isityael/harbor-core
-    tag: v2.16.0-yael.5
+    tag: v2.16.0-yael.5@sha256:b723b8412a026c9b788b0b00c4a6080ceb39867bc34e86d415ea6065fa632589
     digest: sha256:b723b8412a026c9b788b0b00c4a6080ceb39867bc34e86d415ea6065fa632589
   # set the service account to be used, default if left empty
   serviceAccountName: ""
@@ -760,7 +760,7 @@ core:
 jobservice:
   image:
     repository: ghcr.io/isityael/harbor-jobservice
-    tag: v2.16.0-yael.5
+    tag: v2.16.0-yael.5@sha256:29a33e67acd146cae71ccdb81a842ea81862e215a57702f4b7f12f843b039923
     digest: sha256:29a33e67acd146cae71ccdb81a842ea81862e215a57702f4b7f12f843b039923
   replicas: 1
   podDisruptionBudget:
@@ -847,7 +847,7 @@ registry:
   registry:
     image:
       repository: ghcr.io/isityael/registry-photon
-      tag: v2.16.0-yael.5
+      tag: v2.16.0-yael.5@sha256:cb094997728362017fc4c9931cf850fe9d032f31bd9cd206eba035ca445c1ee6
       digest: sha256:cb094997728362017fc4c9931cf850fe9d032f31bd9cd206eba035ca445c1ee6
     # resources:
     #  requests:
@@ -871,7 +871,7 @@ registry:
   controller:
     image:
       repository: ghcr.io/isityael/harbor-registryctl
-      tag: v2.16.0-yael.5
+      tag: v2.16.0-yael.5@sha256:c0cec012772abad20efcf12a831d4ced2e5cd7e4e03268b931a53badb2476048
       digest: sha256:c0cec012772abad20efcf12a831d4ced2e5cd7e4e03268b931a53badb2476048
     # resources:
     #  requests:
@@ -972,7 +972,7 @@ trivy:
     # repository the repository for Trivy adapter image
     repository: ghcr.io/isityael/harbor-trivy-adapter
     # tag the tag for Trivy adapter image
-    tag: v2.16.0-yael.5
+    tag: v2.16.0-yael.5@sha256:65c2ab7c5af9f278097ed66480d0dc35ff4438b76b736cd7e6339702a46572e1
     digest: sha256:65c2ab7c5af9f278097ed66480d0dc35ff4438b76b736cd7e6339702a46572e1
   # set the service account to be used, default if left empty
   serviceAccountName: ""
@@ -1096,7 +1096,7 @@ database:
   internal:
     image:
       repository: ghcr.io/isityael/harbor-db
-      tag: v2.16.0-yael.5
+      tag: v2.16.0-yael.5@sha256:5a2ce39f5aee6316f7fe3fc7c55ef4335a8251fc11678239141ce2de32fbb2f8
       digest: sha256:5a2ce39f5aee6316f7fe3fc7c55ef4335a8251fc11678239141ce2de32fbb2f8
     # set the service account to be used, default if left empty
     serviceAccountName: ""
@@ -1188,7 +1188,7 @@ redis:
   internal:
     image:
       repository: ghcr.io/isityael/valkey-photon
-      tag: v2.16.0-yael.5
+      tag: v2.16.0-yael.5@sha256:58cb5b70f2ca72438486202b4b3808741929d7fad8b42cdb39dfd315c833c09a
       digest: sha256:58cb5b70f2ca72438486202b4b3808741929d7fad8b42cdb39dfd315c833c09a
     # set the service account to be used, default if left empty
     serviceAccountName: ""
@@ -1274,7 +1274,7 @@ redis:
 exporter:
   image:
     repository: ghcr.io/isityael/harbor-exporter
-    tag: v2.16.0-yael.5
+    tag: v2.16.0-yael.5@sha256:6e2b5f856c96145fcdb695dda6e7e97b135ccc3f630cf74ad8d77ef7fc0282c9
     digest: sha256:6e2b5f856c96145fcdb695dda6e7e97b135ccc3f630cf74ad8d77ef7fc0282c9
   serviceAccountName: ""
   # mount the service account token
