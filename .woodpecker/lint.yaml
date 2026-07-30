@@ -16,6 +16,11 @@ steps:
     commands:
       - helm lint .
 
+  - name: image-digest-contract
+    image: dhi.io/helm:4.2.3-debian13-dev@sha256:cc75e7d23ac64803bf20fef75b6f92faca493312295157c85833f28235309dca
+    commands:
+      - .ci/tests/image-digest-rendering.sh
+
   - name: template-ingress
     image: dhi.io/helm:4.2.3-debian13-dev@sha256:cc75e7d23ac64803bf20fef75b6f92faca493312295157c85833f28235309dca
     commands:
