@@ -648,6 +648,9 @@ The tag remains present when a digest is configured to keep references readable.
 */}}
 {{- define "harbor.image" -}}
   {{- $tag := default (include "harbor.defaultImageTag" .root) .image.tag -}}
+  {{- if .image.digest -}}
+    {{- $tag = regexReplaceAll "@sha256:[0-9a-fA-F]{64}$" $tag "" -}}
+  {{- end -}}
   {{- printf "%s:%s" .image.repository $tag -}}
   {{- with .image.digest -}}@{{ . }}{{- end -}}
 {{- end -}}

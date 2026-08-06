@@ -388,7 +388,9 @@ secretKey: "not-a-secure-key"
 existingSecretSecretKey: ""
 
 # The proxy settings for updating trivy vulnerabilities from the Internet and replicating
-# artifacts from/to the registries that cannot be reached directly
+# artifacts from/to the registries that cannot be reached directly.
+# Note: You can append `-registry` to the components list if you want to apply proxy settings
+# to the registry component, for example when using S3 with `disableredirect: true` and needing a proxy.
 proxy:
   httpProxy:
   httpsProxy:
@@ -507,9 +509,8 @@ containerSecurityContext:
 # If service exposed via "ingress", the Nginx will not be used
 nginx:
   image:
-    repository: ghcr.io/isityael/nginx-photon
-    tag: v2.16.0-yael.5@sha256:4d0c518a9f8307427829aab16ce4f598d8435466e463148ca74e7d5ae46d5b57
-    digest: sha256:4d0c518a9f8307427829aab16ce4f598d8435466e463148ca74e7d5ae46d5b57
+    repository: docker.io/goharbor/nginx-photon
+    tag: dev@sha256:b4bd9fb79e0ec4a3bfe606e7129775bcabee9d19cbb2836ce5305ccd51a63b33
   # set the service account to be used, default if left empty
   serviceAccountName: ""
   # mount the service account token
@@ -557,9 +558,8 @@ nginx:
 
 portal:
   image:
-    repository: ghcr.io/isityael/harbor-portal
-    tag: v2.16.0-yael.5@sha256:9431c8e08129810bad5fc97350d2afd6985d6143486edffcdd5e4233f6ad7ff9
-    digest: sha256:9431c8e08129810bad5fc97350d2afd6985d6143486edffcdd5e4233f6ad7ff9
+    repository: docker.io/goharbor/harbor-portal
+    tag: dev@sha256:f7ac219481772eb84d7b59bd76c0cef9f35f65cb3d954cdb2beedae70271f2bc
   # set the service account to be used, default if left empty
   serviceAccountName: ""
   # mount the service account token
@@ -620,9 +620,8 @@ core:
   # updateStrategy:
   #   type: Recreate
   image:
-    repository: ghcr.io/isityael/harbor-core
-    tag: v2.16.0-yael.5@sha256:b723b8412a026c9b788b0b00c4a6080ceb39867bc34e86d415ea6065fa632589
-    digest: sha256:b723b8412a026c9b788b0b00c4a6080ceb39867bc34e86d415ea6065fa632589
+    repository: docker.io/goharbor/harbor-core
+    tag: dev@sha256:079f399ba936712b28f58340bf02342b22d46dbf777634feb21ee2a17851445a
   # set the service account to be used, default if left empty
   serviceAccountName: ""
   # mount the service account token
@@ -759,9 +758,8 @@ core:
 
 jobservice:
   image:
-    repository: ghcr.io/isityael/harbor-jobservice
-    tag: v2.16.0-yael.5@sha256:29a33e67acd146cae71ccdb81a842ea81862e215a57702f4b7f12f843b039923
-    digest: sha256:29a33e67acd146cae71ccdb81a842ea81862e215a57702f4b7f12f843b039923
+    repository: docker.io/goharbor/harbor-jobservice
+    tag: dev@sha256:a02fd7a7bb2a3cd8da0be211f48e006d605f86c551f502f866bdfe6aafdd6140
   replicas: 1
   podDisruptionBudget:
     enabled: false
@@ -846,9 +844,8 @@ jobservice:
 registry:
   registry:
     image:
-      repository: ghcr.io/isityael/registry-photon
-      tag: v2.16.0-yael.5@sha256:cb094997728362017fc4c9931cf850fe9d032f31bd9cd206eba035ca445c1ee6
-      digest: sha256:cb094997728362017fc4c9931cf850fe9d032f31bd9cd206eba035ca445c1ee6
+      repository: docker.io/goharbor/registry-photon
+      tag: dev@sha256:e980cb2668c8457b4b4cc5165b031785a4990fb0c5017cc32d0b23fd551109ea
     # resources:
     #  requests:
     #    memory: 256Mi
@@ -870,9 +867,8 @@ registry:
       successThreshold: 1
   controller:
     image:
-      repository: ghcr.io/isityael/harbor-registryctl
-      tag: v2.16.0-yael.5@sha256:c0cec012772abad20efcf12a831d4ced2e5cd7e4e03268b931a53badb2476048
-      digest: sha256:c0cec012772abad20efcf12a831d4ced2e5cd7e4e03268b931a53badb2476048
+      repository: docker.io/goharbor/harbor-registryctl
+      tag: dev@sha256:62b64f465d111419a6d363b3c472686a689fe632231492fdde220e2072b0adcc
     # resources:
     #  requests:
     #    memory: 256Mi
@@ -972,8 +968,7 @@ trivy:
     # repository the repository for Trivy adapter image
     repository: ghcr.io/isityael/harbor-trivy-adapter
     # tag the tag for Trivy adapter image
-    tag: v2.16.0-yael.5@sha256:65c2ab7c5af9f278097ed66480d0dc35ff4438b76b736cd7e6339702a46572e1
-    digest: sha256:65c2ab7c5af9f278097ed66480d0dc35ff4438b76b736cd7e6339702a46572e1
+    tag: dev@sha256:278582e3050ea4248bf94ee52b5ece5f84959e4513f60e5bb2bec8881a0bbc81
   # set the service account to be used, default if left empty
   serviceAccountName: ""
   # mount the service account token
@@ -1095,9 +1090,8 @@ database:
   type: internal
   internal:
     image:
-      repository: ghcr.io/isityael/harbor-db
-      tag: v2.16.0-yael.5@sha256:5a2ce39f5aee6316f7fe3fc7c55ef4335a8251fc11678239141ce2de32fbb2f8
-      digest: sha256:5a2ce39f5aee6316f7fe3fc7c55ef4335a8251fc11678239141ce2de32fbb2f8
+      repository: docker.io/goharbor/harbor-db
+      tag: dev@sha256:4dbfa12da39ccf696e68894ebf9eabe5997279820c9a8e7f8e0521ffc115172e
     # set the service account to be used, default if left empty
     serviceAccountName: ""
     # mount the service account token
@@ -1187,9 +1181,8 @@ redis:
   type: internal
   internal:
     image:
-      repository: ghcr.io/isityael/valkey-photon
-      tag: v2.16.0-yael.5@sha256:58cb5b70f2ca72438486202b4b3808741929d7fad8b42cdb39dfd315c833c09a
-      digest: sha256:58cb5b70f2ca72438486202b4b3808741929d7fad8b42cdb39dfd315c833c09a
+      repository: docker.io/goharbor/valkey-photon
+      tag: dev@sha256:7f60138a476e3cbc1d4c22f00e6bc50d5fa690c319fc4ad042cc62d8838646f1
     # set the service account to be used, default if left empty
     serviceAccountName: ""
     # mount the service account token
@@ -1273,9 +1266,8 @@ redis:
 
 exporter:
   image:
-    repository: ghcr.io/isityael/harbor-exporter
-    tag: v2.16.0-yael.5@sha256:6e2b5f856c96145fcdb695dda6e7e97b135ccc3f630cf74ad8d77ef7fc0282c9
-    digest: sha256:6e2b5f856c96145fcdb695dda6e7e97b135ccc3f630cf74ad8d77ef7fc0282c9
+    repository: docker.io/goharbor/harbor-exporter
+    tag: dev@sha256:80d5c0325e2ca34f9d37bf5cc1cb51a7d1a4ae0a0aeb3240c48a8d9ace0e3226
   serviceAccountName: ""
   # mount the service account token
   automountServiceAccountToken: false
