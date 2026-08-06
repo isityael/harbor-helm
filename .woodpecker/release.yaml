@@ -1,0 +1,61 @@
+# Harbor Helm chart — release pipeline
+#
+# Triggered by version tags (v*). Packages the chart, pushes the OCI
+# artifact to ghcr.io/isityael/charts, and creates a GitHub release.
+#
+# Release workflow:
+#   1. Bump version/appVersion in Chart.yaml
+#   2. Commit: "build: bump chart to vX.Y.Z / appVersion vA.B.C"
+#   3. Tag:    git tag vX.Y.Z
+#   4. Push:   git push && git push --tags
+#   5. This pipeline runs automatically
+when:
+  - event: tag
+    ref: refs/tags/v*
+
+steps:
+  - name: helm-lint
+    image: dhi.io/helm:4.2.3-debian13-dev@sha256:cc75e7d23ac64803bf20fef75b6f92faca493312295157c85833f28235309dca
+    commands:
+      - helm lint .
+
+  - name: helm-package
+    image: dhi.io/helm:4.2.3-debian13-dev@sha256:cc75e7d23ac64803bf20fef75b6f92faca493312295157c85833f28235309dca
+    environment:
+      GHCR_USERNAME:
+        from_secret: github_username
+      GHCR_TOKEN:
+        from_secret: github_token
+    commands:
+      - helm package .
+      - helm registry login ghcr.io -u "$GHCR_USERNAME" -p "$GHCR_TOKEN"
+      - helm push harbor-*.tgz oci://ghcr.io/isityael/charts
+
+  - name: github-release
+    image: dhi.io/alpine-base:3.24-dev@sha256:bc485a80d08683238c792a82331064d2cccafeb724d65a7b049a623db834b547
+    environment:
+      GITHUB_TOKEN:
+        from_secret: github_token
+    commands:
+      - apk add --no-cache -X https://dl-cdn.alpinelinux.org/alpine/v3.24/community github-cli
+      - |
+        test -n "$GITHUB_TOKEN" || { echo "Missing github_token secret"; exit 1; }
+        export GH_TOKEN="$GITHUB_TOKEN"
+        REPO="isityael/harbor-helm"
+        ARTIFACT="harbor-${CI_COMMIT_TAG#v}.tgz"
+
+        test -f "$ARTIFACT" || { echo "Missing chart package: $ARTIFACT"; exit 1; }
+        sha256sum "$ARTIFACT" > SHA256sum.txt
+        if ! gh api "repos/$REPO/git/ref/tags/${CI_COMMIT_TAG}" >/dev/null 2>&1; then
+          gh api "repos/$REPO/git/refs" \
+            -f ref="refs/tags/${CI_COMMIT_TAG}" \
+            -f sha="$(git rev-parse HEAD)" >/dev/null
+        fi
+
+        if gh release view "${CI_COMMIT_TAG}" --repo "$REPO" >/dev/null 2>&1; then
+          gh release edit "${CI_COMMIT_TAG}" --repo "$REPO" --title "${CI_COMMIT_TAG}" --notes "auto" --draft=false --prerelease=false
+        else
+          gh release create "${CI_COMMIT_TAG}" --repo "$REPO" --title "${CI_COMMIT_TAG}" --notes "auto" --draft=false --prerelease=false --verify-tag
+        fi
+
+        gh release upload "${CI_COMMIT_TAG}" --repo "$REPO" "$ARTIFACT" SHA256sum.txt --clobber

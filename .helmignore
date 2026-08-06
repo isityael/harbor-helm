@@ -1,6 +1,12 @@
 .github/*
+.vscode/*
+.woodpecker/*
+.ci/*
 docs/*
 .git/*
 .gitignore
+.DS_Store
+AGENTS.md
 CONTRIBUTING.md
+CLAUDE.md
 test/*

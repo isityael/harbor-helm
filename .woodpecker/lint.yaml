@@ -1,0 +1,32 @@
+# Harbor Helm chart — lint pipeline
+#
+# Runs on pushes to isityael/main and pull requests.
+when:
+  - event: [push, pull_request]
+    branch: isityael/main
+
+steps:
+  - name: chart-version-guard
+    image: ghcr.io/isityael/chart-version-guard:main@sha256:01cd1cb05db4c02490b0497aee06736e5bb44e20885bc5a150c7372787bd7cc0
+    commands:
+      - chart-version-guard check --ci woodpecker --repo .
+
+  - name: helm-lint
+    image: dhi.io/helm:4.2.3-debian13-dev@sha256:cc75e7d23ac64803bf20fef75b6f92faca493312295157c85833f28235309dca
+    commands:
+      - helm lint .
+
+  - name: image-digest-contract
+    image: dhi.io/helm:4.2.3-debian13-dev@sha256:cc75e7d23ac64803bf20fef75b6f92faca493312295157c85833f28235309dca
+    commands:
+      - .ci/tests/image-digest-rendering.sh
+
+  - name: template-ingress
+    image: dhi.io/helm:4.2.3-debian13-dev@sha256:cc75e7d23ac64803bf20fef75b6f92faca493312295157c85833f28235309dca
+    commands:
+      - helm template harbor . --set "expose.type=ingress" > /dev/null
+
+  - name: template-nodeport
+    image: dhi.io/helm:4.2.3-debian13-dev@sha256:cc75e7d23ac64803bf20fef75b6f92faca493312295157c85833f28235309dca
+    commands:
+      - helm template harbor . --set "expose.type=nodePort,expose.tls.auto.commonName=127.0.0.1" > /dev/null

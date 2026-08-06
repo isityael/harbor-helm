@@ -1,0 +1,92 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "forkProcessing": "enabled",
+  "extends": [
+    "local>isityael/infra//.github/renovate/base.json",
+    "config:best-practices",
+    ":preserveSemverRanges"
+  ],
+  "enabledManagers": [
+    "custom.regex",
+    "dockerfile",
+    "gomod",
+    "helmv3",
+    "helm-values",
+    "woodpecker"
+  ],
+  "helmv3": {
+    "managerFilePatterns": [
+      "/Chart\\.yaml$/"
+    ]
+  },
+  "helm-values": {
+    "managerFilePatterns": [
+      "/values\\.yaml$/"
+    ]
+  },
+  "ignorePaths": [
+    "**/bower_components/**",
+    "**/node_modules/**"
+  ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "Kubernetes CLI version used by the e2e test image",
+      "managerFilePatterns": [
+        "//test/e2e/Dockerfile$//"
+      ],
+      "matchStrings": [
+        "ARG KUBECTL_VERSION=\"(?<currentValue>v[^\"]+)\""
+      ],
+      "datasourceTemplate": "github-tags",
+      "depNameTemplate": "kubernetes/kubernetes"
+    },
+    {
+      "customType": "regex",
+      "description": "Helm CLI version used by the e2e test image",
+      "managerFilePatterns": [
+        "//test/e2e/Dockerfile$//"
+      ],
+      "matchStrings": [
+        "ARG HELM_VERSION=\"v(?<currentValue>[^\"]+)\""
+      ],
+      "datasourceTemplate": "github-releases",
+      "depNameTemplate": "helm/helm"
+    }
+  ],
+  "packageRules": [
+    {
+      "description": "Patch-bump the Harbor Helm chart version when Renovate changes chart dependencies or values",
+      "matchManagers": ["helmv3", "helm-values"],
+      "matchFileNames": [
+        "Chart.yaml",
+        "values.yaml"
+      ],
+      "addLabels": ["helm"],
+      "bumpVersions": [
+        {
+          "name": "Patch-bump Harbor Helm Chart.yaml",
+          "filePatterns": ["Chart.yaml"],
+          "matchStrings": ["version:\\s*\"?v?(?<version>\\d+\\.\\d+\\.\\d+)\"?"],
+          "bumpType": "patch"
+        }
+      ]
+    },
+    {
+      "matchManagers": ["custom.regex"],
+      "addLabels": ["test-tooling"]
+    },
+    {
+      "matchManagers": ["gomod"],
+      "addLabels": ["go"]
+    },
+    {
+      "matchManagers": ["helmv3"],
+      "addLabels": ["helm"]
+    },
+    {
+      "matchManagers": ["dockerfile", "woodpecker"],
+      "addLabels": ["docker"]
+    }
+  ]
+}
