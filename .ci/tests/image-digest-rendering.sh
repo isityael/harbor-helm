@@ -32,6 +32,11 @@ done
 
 helm "${helm_args[@]}" > "${rendered}"
 
+if grep -En 'image: .*@sha256:[[:xdigit:]]{64}@sha256:[[:xdigit:]]{64}$' "${rendered}"; then
+  echo "a Harbor image reference must contain at most one immutable digest" >&2
+  exit 1
+fi
+
 digest_refs="$(grep -Ec "image: .*@${digest}$" "${rendered}" || true)"
 [[ "${digest_refs}" -eq 12 ]] || {
   echo "expected all 12 Harbor container references to render the configured digest; got ${digest_refs}" >&2
