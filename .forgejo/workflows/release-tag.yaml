@@ -25,6 +25,7 @@ jobs:
           FORGEJO_TOKEN: ${{ github.token }}
         run: |
           set -eu
+          ./hack/wait-for-woodpecker-success.sh "${GITHUB_SHA}" ci/woodpecker/push/lint
           CHART_VERSION="$(sed -n 's/^version:[[:space:]]*//p' Chart.yaml | head -n 1)"
           case "${CHART_VERSION}" in
             [0-9]*.[0-9]*.[0-9]*) ;;
