@@ -8,7 +8,6 @@ on:
       - values.yaml
       - values.schema.json
       - templates/**
-      - .forgejo/workflows/release-tag.yaml
   workflow_dispatch:
 
 jobs:
@@ -31,12 +30,16 @@ jobs:
             [0-9]*.[0-9]*.[0-9]*) ;;
             *) echo "Invalid chart version: ${CHART_VERSION}" >&2; exit 1 ;;
           esac
-          if curl --fail --silent --show-error \
+          if existing="$(curl --fail --silent --show-error \
             --header "Authorization: token ${FORGEJO_TOKEN}" \
-            "${FORGEJO_API_URL}/repos/${FORGEJO_REPOSITORY}/git/refs/tags/v${CHART_VERSION}" \
-            >/dev/null; then
-            echo "v${CHART_VERSION} already exists"
-            exit 0
+            "${FORGEJO_API_URL}/repos/${FORGEJO_REPOSITORY}/git/refs/tags/v${CHART_VERSION}")"; then
+            target="$(printf '%s' "$existing" | jq -r '.object.sha')"
+            if [ "$target" = "$GITHUB_SHA" ]; then
+              echo "v${CHART_VERSION} already releases ${GITHUB_SHA}"
+              exit 0
+            fi
+            echo "v${CHART_VERSION} already exists at ${target}; refusing to move it" >&2
+            exit 1
           fi
           curl --fail --silent --show-error \
             --request POST \
