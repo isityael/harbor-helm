@@ -1182,7 +1182,7 @@ redis:
   internal:
     image:
       repository: docker.io/goharbor/valkey-photon
-      tag: dev@sha256:7f60138a476e3cbc1d4c22f00e6bc50d5fa690c319fc4ad042cc62d8838646f1
+      tag: dev@sha256:3a2be4968a42ff2ab8f92e0c5661cfd8f28150a48973aa94958dcc6eefeba09f
     # set the service account to be used, default if left empty
     serviceAccountName: ""
     # mount the service account token
