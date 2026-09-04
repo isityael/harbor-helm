@@ -7,26 +7,26 @@ when:
 
 steps:
   - name: chart-version-guard
-    image: ghcr.io/isityael/chart-version-guard:main@sha256:fcfaa83ad6b20fc7e0f15e7ca128fc0d36816bf38ef7fff40526fb3924b557e8
+    image: ghcr.io/isityael/chart-version-guard:main@sha256:ebe7335ccc92a661b4385f2968960dee118c666774cb1b61077d90c0b259833e
     commands:
       - chart-version-guard check --ci woodpecker --repo .
 
   - name: helm-lint
-    image: dhi.io/helm:4.2.4-debian13-dev@sha256:34c4d67ac222cab255b8a737d86e834165e1a3f537699824992f183d872f456c
+    image: dhi.io/helm:4.2.4-debian13-dev@sha256:13d333413a142bf102271710d84c39a5553e175d677a4b218013c37db68fb430
     commands:
       - helm lint .
 
   - name: image-digest-contract
-    image: dhi.io/helm:4.2.4-debian13-dev@sha256:34c4d67ac222cab255b8a737d86e834165e1a3f537699824992f183d872f456c
+    image: dhi.io/helm:4.2.4-debian13-dev@sha256:13d333413a142bf102271710d84c39a5553e175d677a4b218013c37db68fb430
     commands:
       - .ci/tests/image-digest-rendering.sh
 
   - name: template-ingress
-    image: dhi.io/helm:4.2.4-debian13-dev@sha256:34c4d67ac222cab255b8a737d86e834165e1a3f537699824992f183d872f456c
+    image: dhi.io/helm:4.2.4-debian13-dev@sha256:13d333413a142bf102271710d84c39a5553e175d677a4b218013c37db68fb430
     commands:
       - helm template harbor . --set "expose.type=ingress" > /dev/null
 
   - name: template-nodeport
-    image: dhi.io/helm:4.2.4-debian13-dev@sha256:34c4d67ac222cab255b8a737d86e834165e1a3f537699824992f183d872f456c
+    image: dhi.io/helm:4.2.4-debian13-dev@sha256:13d333413a142bf102271710d84c39a5553e175d677a4b218013c37db68fb430
     commands:
       - helm template harbor . --set "expose.type=nodePort,expose.tls.auto.commonName=127.0.0.1" > /dev/null
