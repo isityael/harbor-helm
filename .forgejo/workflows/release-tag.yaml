@@ -1,30 +1,85 @@
-name: Create chart release tag
+name: Validate and release Harbor chart
 
 on:
   push:
     branches: [isityael/main]
-    paths:
-      - Chart.yaml
-      - values.yaml
-      - values.schema.json
-      - templates/**
+  pull_request:
+    branches: [isityael/main]
   workflow_dispatch:
 
 jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source and history
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+
+      - name: Install Go for chart version guard
+        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7
+        with:
+          go-version: 1.26.3
+          cache: false
+
+      - name: Install chart version guard
+        run: go install git.m0sh1.cc/m0sh1/chart-version-guard/cmd/chart-version-guard@v0.1.0-ym.10
+
+      - name: Enforce chart version
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          BASE_BRANCH: ${{ github.base_ref }}
+          BEFORE_SHA: ${{ github.event.before }}
+        run: |
+          set -eu
+          if [ "$EVENT_NAME" = pull_request ]; then
+            git fetch origin "$BASE_BRANCH"
+            base="origin/$BASE_BRANCH"
+          elif [ -n "$BEFORE_SHA" ] && git cat-file -e "$BEFORE_SHA^{commit}" 2>/dev/null; then
+            base="$BEFORE_SHA"
+          else
+            base=HEAD^
+          fi
+          "$(go env GOPATH)/bin/chart-version-guard" check --base "$base" --head HEAD --repo .
+
+      - name: Install Helm
+        uses: azure/setup-helm@1a275c3b69536ee54be43f2070a358922e12c8d4 # v4.3.1
+        with:
+          version: v4.3.0
+
+      - name: Validate chart and rendered image digests
+        run: |
+          set -eu
+          helm lint .
+          .ci/tests/image-digest-rendering.sh
+          helm template harbor . --set 'expose.type=ingress' > /dev/null
+          helm template harbor . --set 'expose.type=nodePort,expose.tls.auto.commonName=127.0.0.1' > /dev/null
+
   release:
+    needs: validate
+    if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     steps:
       - name: Check out source
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
 
       - name: Create immutable chart tag
         env:
           FORGEJO_API_URL: ${{ github.server_url }}/api/v1
           FORGEJO_REPOSITORY: ${{ github.repository }}
           FORGEJO_TOKEN: ${{ github.token }}
+          EVENT_NAME: ${{ github.event_name }}
+          BEFORE_SHA: ${{ github.event.before }}
         run: |
           set -eu
-          ./hack/wait-for-woodpecker-success.sh "${GITHUB_SHA}" ci/woodpecker/push/lint
+          if [ "$EVENT_NAME" = push ] && [ -n "$BEFORE_SHA" ] && git cat-file -e "$BEFORE_SHA^{commit}" 2>/dev/null; then
+            if [ -z "$(git diff --name-only "$BEFORE_SHA" HEAD -- Chart.yaml values.yaml values.schema.json templates/)" ]; then
+              echo 'No chart source changed; no release tag needed.'
+              exit 0
+            fi
+          fi
           CHART_VERSION="$(sed -n 's/^version:[[:space:]]*//p' Chart.yaml | head -n 1)"
           case "${CHART_VERSION}" in
             [0-9]*.[0-9]*.[0-9]*) ;;
