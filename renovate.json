@@ -87,6 +87,11 @@
     {
       "matchManagers": ["dockerfile", "woodpecker"],
       "addLabels": ["docker"]
+    },
+    {
+      "description": "Kubernetes 0.37 requires structured-merge-diff/v6; newer kube-openapi uses v7. Revisit with the Kubernetes API migration.",
+      "matchPackageNames": ["k8s.io/kube-openapi"],
+      "allowedVersions": "<=v0.0.0-20260821135717-be32def86098"
     }
   ]
 }
