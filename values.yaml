@@ -513,7 +513,7 @@ containerSecurityContext:
 nginx:
   image:
     repository: docker.io/goharbor/nginx-photon
-    tag: dev@sha256:8a1206feb9ff5b44c84a2eadbc64fac1659e3b38a27f056bc56325ea3f7a7890
+    tag: dev@sha256:02a44987639ab75fe817c05a3ab3f5a1cfa487421bda0022dfeafb026a96efc4
   # set the service account to be used, default if left empty
   serviceAccountName: ""
   # mount the service account token
@@ -562,7 +562,7 @@ nginx:
 portal:
   image:
     repository: docker.io/goharbor/harbor-portal
-    tag: dev@sha256:8c66d44c04c9754bf1ba10681ece593e5f0f5f8ca0579f23b3883c3060064e80
+    tag: dev@sha256:a358fb9c4e888dab2bc8987866a12b5112fd327388c9c335ac5599d72d589611
   # set the service account to be used, default if left empty
   serviceAccountName: ""
   # mount the service account token
@@ -624,7 +624,7 @@ core:
   #   type: Recreate
   image:
     repository: docker.io/goharbor/harbor-core
-    tag: dev@sha256:f3efb22e71d57659ce775846629e856e670e4dcb67dcb64906007175bce882ba
+    tag: dev@sha256:7f05be77ee8136fed2746a016a56fbf2548cb217977cc6eefed5ae84f5be95c6
   # set the service account to be used, default if left empty
   serviceAccountName: ""
   # mount the service account token
@@ -767,7 +767,7 @@ core:
 jobservice:
   image:
     repository: docker.io/goharbor/harbor-jobservice
-    tag: dev@sha256:7ceaebd363640219e9d7a1ff45e637be62cdf064eec843ac35ad3f47c1f99363
+    tag: dev@sha256:434caa69c4cc52373f12d32ff45a5b7b2ad0fcf6a0a86ffec5adf0a76fcce09d
   replicas: 1
   podDisruptionBudget:
     enabled: false
@@ -853,7 +853,7 @@ registry:
   registry:
     image:
       repository: docker.io/goharbor/registry-photon
-      tag: dev@sha256:e8e07ba4f9f1ebfad18bd72893790ebd33b89abc504d9562e7003571e0257e64
+      tag: dev@sha256:35060dcb1d54b332cddbfd1429d2af83480b894a78b51b3011f1a27a0832b16b
     # resources:
     #  requests:
     #    memory: 256Mi
@@ -876,7 +876,7 @@ registry:
   controller:
     image:
       repository: docker.io/goharbor/harbor-registryctl
-      tag: dev@sha256:e3b16687cd79f8729630dc394fe87f75c46dfd9f1542a5e127ffee6cccb0b64c
+      tag: dev@sha256:62b9459c9647af880af217a10be1265d925bafe7ac076a260f2d2bacc96e65b5
     # resources:
     #  requests:
     #    memory: 256Mi
@@ -1099,7 +1099,7 @@ database:
   internal:
     image:
       repository: docker.io/goharbor/harbor-db
-      tag: dev@sha256:c24f50ae65fc7db2fa15fe9d50f4068880c6d990df54bca07cfcb6de413a6aa2
+      tag: dev@sha256:105142fd6aa269478630ce74cec58b2de23bfc480a7750bf4b6f1976d80959b7
     # set the service account to be used, default if left empty
     serviceAccountName: ""
     # mount the service account token
@@ -1190,7 +1190,7 @@ redis:
   internal:
     image:
       repository: docker.io/goharbor/valkey-photon
-      tag: dev@sha256:a088b4c73b4914b9952539e096d76dcd2ce4035a94c0094b22ff756a55323cfd
+      tag: dev@sha256:1bce6d7bc154dc84fac8664e2f8e0ebb66a979b6ca822ff873263b33242ff4e4
     # set the service account to be used, default if left empty
     serviceAccountName: ""
     # mount the service account token
@@ -1275,7 +1275,7 @@ redis:
 exporter:
   image:
     repository: docker.io/goharbor/harbor-exporter
-    tag: dev@sha256:c539f94bbc3ec19282e32120c1365d46683cb576ab9603200232e450081a80e1
+    tag: dev@sha256:ddf90e23032165f38b5515ca459c1f95f63ee702200cfe1123601c173820cc5a
   serviceAccountName: ""
   # mount the service account token
   automountServiceAccountToken: false
