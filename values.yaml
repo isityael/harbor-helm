@@ -976,7 +976,7 @@ trivy:
     # repository the repository for Trivy adapter image
     repository: ghcr.io/isityael/harbor-trivy-adapter
     # tag the tag for Trivy adapter image
-    tag: v2.16.0-yael.66@sha256:f913a5e4f77a336d963a563f07b92a5f352a235f2229376e28e7c6a964194554
+    tag: v2.16.0-yael.69@sha256:0aad18c3054ba007bcd86191fce8fedc2035e4d0f1d8ee18d54d5bec3dfc3e50
   # set the service account to be used, default if left empty
   serviceAccountName: ""
   # mount the service account token
