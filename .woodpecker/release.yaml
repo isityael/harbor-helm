@@ -1,7 +1,7 @@
 # Harbor Helm chart — release pipeline
 #
 # Triggered by version tags (v*). Packages the chart, pushes the OCI
-# artifact to ghcr.io/isityael/charts.
+# artifact to git.m0sh1.cc/isityael/charts.
 #
 # Release workflow:
 #   1. Bump version/appVersion in Chart.yaml
@@ -22,11 +22,11 @@ steps:
   - name: helm-package
     image: dhi.io/helm:4.3.1-debian13-dev@sha256:8d77e0b84c3923b7823e562216ffe63574432ad298f4da23b30ae70485b46eec
     environment:
-      GHCR_USERNAME:
-        from_secret: github_username
-      GHCR_TOKEN:
-        from_secret: github_token
+      FORGEJO_USERNAME:
+        from_secret: forgejo_public_package_username
+      FORGEJO_TOKEN:
+        from_secret: forgejo_public_package_token
     commands:
       - helm package .
-      - helm registry login ghcr.io -u "$GHCR_USERNAME" -p "$GHCR_TOKEN"
-      - helm push harbor-*.tgz oci://ghcr.io/isityael/charts
+      - helm registry login git.m0sh1.cc -u "$FORGEJO_USERNAME" -p "$FORGEJO_TOKEN"
+      - helm push harbor-*.tgz oci://git.m0sh1.cc/isityael/charts
