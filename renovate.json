@@ -35,9 +35,7 @@
       "managerFilePatterns": [
         "//test/e2e/Dockerfile$//"
       ],
-      "matchStrings": [
-        "ARG KUBECTL_VERSION=\"(?<currentValue>v[^\"]+)\""
-      ],
+      "matchStrings": ["ARG KUBECTL_VERSION=\"(?<currentValue>v[^\"]+)\""],
       "datasourceTemplate": "github-tags",
       "depNameTemplate": "kubernetes/kubernetes"
     },
@@ -47,9 +45,7 @@
       "managerFilePatterns": [
         "//test/e2e/Dockerfile$//"
       ],
-      "matchStrings": [
-        "ARG HELM_VERSION=\"v(?<currentValue>[^\"]+)\""
-      ],
+      "matchStrings": ["ARG HELM_VERSION=\"v(?<currentValue>[^\"]+)\""],
       "datasourceTemplate": "github-releases",
       "depNameTemplate": "helm/helm"
     }
@@ -92,6 +88,17 @@
       "description": "Kubernetes 0.37 requires structured-merge-diff/v6; newer kube-openapi uses v7. Revisit with the Kubernetes API migration.",
       "matchPackageNames": ["k8s.io/kube-openapi"],
       "allowedVersions": "<=v0.0.0-20260821135717-be32def86098"
+    },
+    {
+      "description": "Use container version tags only.",
+      "matchDatasources": [
+        "docker"
+      ],
+      "pinDigests": false
     }
+  ],
+  "pinDigests": false,
+  "ignorePresets": [
+    "docker:pinDigests"
   ]
 }

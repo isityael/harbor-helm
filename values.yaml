@@ -512,8 +512,8 @@ containerSecurityContext:
 # If service exposed via "ingress", the Nginx will not be used
 nginx:
   image:
-    repository: docker.io/goharbor/nginx-photon
-    tag: dev@sha256:a52963a8464acf8411279935d1a654182573f29a2bc88610a15be13403af89b2
+    repository: git.m0sh1.cc/isityael/nginx-photon
+    tag: v2.17.0-yael.4
   # set the service account to be used, default if left empty
   serviceAccountName: ""
   # mount the service account token
@@ -561,8 +561,8 @@ nginx:
 
 portal:
   image:
-    repository: docker.io/goharbor/harbor-portal
-    tag: dev@sha256:a4964962dc16499758d80cf4fdfdeecf2a9cd8a4ffe9d0e30f150ef06eb7b076
+    repository: git.m0sh1.cc/isityael/harbor-portal
+    tag: v2.17.0-yael.5
   # set the service account to be used, default if left empty
   serviceAccountName: ""
   # mount the service account token
@@ -623,8 +623,8 @@ core:
   # updateStrategy:
   #   type: Recreate
   image:
-    repository: docker.io/goharbor/harbor-core
-    tag: dev@sha256:2d4ad4bd0de553be9455dbf41a54a4082cbf47bfe4a7557310649f8c81db83ba
+    repository: git.m0sh1.cc/isityael/harbor-core
+    tag: v2.17.0-yael.5
   # set the service account to be used, default if left empty
   serviceAccountName: ""
   # mount the service account token
@@ -766,8 +766,8 @@ core:
 
 jobservice:
   image:
-    repository: docker.io/goharbor/harbor-jobservice
-    tag: dev@sha256:a4d5404e3648d1245c346bd46cc9740cd0ace04a6357a2590f0b53f071d55baf
+    repository: git.m0sh1.cc/isityael/harbor-jobservice
+    tag: v2.17.0-yael.5
   replicas: 1
   podDisruptionBudget:
     enabled: false
@@ -852,8 +852,8 @@ jobservice:
 registry:
   registry:
     image:
-      repository: docker.io/goharbor/registry-photon
-      tag: dev@sha256:8e136cb84a6bc619abaa980f2a68b89b55ff6e2636a259c1079cd267533c49da
+      repository: git.m0sh1.cc/isityael/registry-photon
+      tag: v2.17.0-yael.5
     # resources:
     #  requests:
     #    memory: 256Mi
@@ -875,8 +875,8 @@ registry:
       successThreshold: 1
   controller:
     image:
-      repository: docker.io/goharbor/harbor-registryctl
-      tag: dev@sha256:37ae73f407fe74db07ce4dfc40ab1dbbb6e5138cac027472472edd3621c511d9
+      repository: git.m0sh1.cc/isityael/harbor-registryctl
+      tag: v2.17.0-yael.5
     # resources:
     #  requests:
     #    memory: 256Mi
@@ -974,9 +974,9 @@ trivy:
   enabled: true
   image:
     # repository the repository for Trivy adapter image
-    repository: ghcr.io/isityael/harbor-trivy-adapter
+    repository: git.m0sh1.cc/isityael/harbor-trivy-adapter
     # tag the tag for Trivy adapter image
-    tag: v2.17.0-yael.5@sha256:f58a674be965c7b173f1e8d9cca301a19b3109040871662dabbbb60c5e89eed8
+    tag: v2.17.0-yael.5
   # set the service account to be used, default if left empty
   serviceAccountName: ""
   # mount the service account token
@@ -1098,8 +1098,8 @@ database:
   type: internal
   internal:
     image:
-      repository: docker.io/goharbor/harbor-db
-      tag: dev@sha256:b4e4e249c928d2f4930eb822577677ec73edbed095a64a774d7ecc786b1ed9eb
+      repository: git.m0sh1.cc/isityael/harbor-db
+      tag: v2.17.0-yael.4
     # set the service account to be used, default if left empty
     serviceAccountName: ""
     # mount the service account token
@@ -1189,8 +1189,8 @@ redis:
   type: internal
   internal:
     image:
-      repository: docker.io/goharbor/valkey-photon
-      tag: dev@sha256:3de6048714de423bce0c0601f84db176821d3b0bdd5da682fc1181577d7a3e4d
+      repository: git.m0sh1.cc/isityael/valkey-photon
+      tag: v2.17.0-yael.4
     # set the service account to be used, default if left empty
     serviceAccountName: ""
     # mount the service account token
@@ -1274,8 +1274,8 @@ redis:
 
 exporter:
   image:
-    repository: docker.io/goharbor/harbor-exporter
-    tag: dev@sha256:96908a20fe3028fc57353803c27ab591ea0629d28446869dd0030ae7e61e3dd5
+    repository: git.m0sh1.cc/isityael/harbor-exporter
+    tag: v2.17.0-yael.5
   serviceAccountName: ""
   # mount the service account token
   automountServiceAccountToken: false
