@@ -15,12 +15,12 @@ when:
 
 steps:
   - name: helm-lint
-    image: dhi.io/helm:4.3.1-debian13-dev@sha256:8d77e0b84c3923b7823e562216ffe63574432ad298f4da23b30ae70485b46eec
+    image: dhi.io/helm:4.3.1-debian13-dev
     commands:
       - helm lint .
 
   - name: helm-package
-    image: dhi.io/helm:4.3.1-debian13-dev@sha256:8d77e0b84c3923b7823e562216ffe63574432ad298f4da23b30ae70485b46eec
+    image: dhi.io/helm:4.3.1-debian13-dev
     environment:
       FORGEJO_USERNAME:
         from_secret: forgejo_public_package_username
