@@ -57,41 +57,91 @@
   "packageRules": [
     {
       "description": "Patch-bump the Harbor Helm chart version when Renovate changes chart dependencies or values",
-      "matchManagers": ["helmv3", "helm-values"],
+      "matchManagers": [
+        "helmv3",
+        "helm-values"
+      ],
       "matchFileNames": [
         "Chart.yaml",
         "values.yaml"
       ],
-      "addLabels": ["helm"],
+      "addLabels": [
+        "helm"
+      ],
       "bumpVersions": [
         {
           "name": "Patch-bump Harbor Helm Chart.yaml",
-          "filePatterns": ["Chart.yaml"],
-          "matchStrings": ["version:\\s*\"?v?(?<version>\\d+\\.\\d+\\.\\d+)\"?"],
+          "filePatterns": [
+            "Chart.yaml"
+          ],
+          "matchStrings": [
+            "version:\\s*\"?v?(?<version>\\d+\\.\\d+\\.\\d+)\"?"
+          ],
           "bumpType": "patch"
         }
       ]
     },
     {
-      "matchManagers": ["custom.regex"],
-      "addLabels": ["test-tooling"]
+      "matchManagers": [
+        "custom.regex"
+      ],
+      "addLabels": [
+        "test-tooling"
+      ]
     },
     {
-      "matchManagers": ["gomod"],
-      "addLabels": ["go"]
+      "matchManagers": [
+        "gomod"
+      ],
+      "addLabels": [
+        "go"
+      ]
     },
     {
-      "matchManagers": ["helmv3"],
-      "addLabels": ["helm"]
+      "matchManagers": [
+        "helmv3"
+      ],
+      "addLabels": [
+        "helm"
+      ]
     },
     {
-      "matchManagers": ["dockerfile", "woodpecker"],
-      "addLabels": ["docker"]
+      "matchManagers": [
+        "dockerfile",
+        "woodpecker"
+      ],
+      "addLabels": [
+        "docker"
+      ]
     },
     {
       "description": "Kubernetes 0.37 requires structured-merge-diff/v6; newer kube-openapi uses v7. Revisit with the Kubernetes API migration.",
-      "matchPackageNames": ["k8s.io/kube-openapi"],
+      "matchPackageNames": [
+        "k8s.io/kube-openapi"
+      ],
       "allowedVersions": "<=v0.0.0-20260821135717-be32def86098"
+    },
+    {
+      "description": "Use container version tags only.",
+      "matchDatasources": [
+        "docker"
+      ],
+      "pinDigests": false
+    },
+    {
+      "description": "Do not create container digest pins or digest refreshes.",
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchUpdateTypes": [
+        "digest",
+        "pinDigest"
+      ],
+      "enabled": false
     }
+  ],
+  "pinDigests": false,
+  "ignorePresets": [
+    "docker:pinDigests"
   ]
 }
