@@ -1,0 +1,32 @@
+suite: NginxDeployment
+
+tests:
+  - it: UsesUpstreamDefaultImageTag
+    set:
+      expose:
+        type: nodePort
+        tls:
+          auto:
+            commonName: 127.0.0.1
+    template: templates/nginx/deployment.yaml
+    asserts:
+      - equal:
+          path: spec.template.spec.containers[0].image
+          value: docker.io/goharbor/nginx-photon:dev
+
+  - it: UsesConfiguredImageTag
+    set:
+      expose:
+        type: nodePort
+        tls:
+          auto:
+            commonName: 127.0.0.1
+      nginx:
+        image:
+          repository: test-repository/test-image
+          tag: 1.0.0
+    template: templates/nginx/deployment.yaml
+    asserts:
+      - equal:
+          path: spec.template.spec.containers[0].image
+          value: test-repository/test-image:1.0.0

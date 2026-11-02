@@ -51,7 +51,8 @@ expose:
   route:
     labels: {}
     annotations: {}
-    # References to the parent gateways
+    # References to the parent gateways. Required when expose.type is "route":
+    # an HTTPRoute with no parentRefs attaches to no Gateway and cannot serve traffic.
     parentRefs: []
       # - name: envoy-internal
       #   namespace: networking
@@ -61,6 +62,15 @@ expose:
     # The hostnames for the HTTPRoute
     hosts: []
       # - "harbor.example.com"
+    # HTTPRoute filters applied to every rule
+    filters: []
+      # - type: ResponseHeaderModifier
+      #   responseHeaderModifier:
+      #     add:
+      #       - name: x-robots-tag
+      #         value: noindex, nofollow
+    # route timeouts
+    timeouts: {}
   clusterIP:
     # The name of ClusterIP service
     name: harbor
@@ -381,7 +391,9 @@ secretKey: "not-a-secure-key"
 existingSecretSecretKey: ""
 
 # The proxy settings for updating trivy vulnerabilities from the Internet and replicating
-# artifacts from/to the registries that cannot be reached directly
+# artifacts from/to the registries that cannot be reached directly.
+# Note: You can append `-registry` to the components list if you want to apply proxy settings
+# to the registry component, for example when using S3 with `disableredirect: true` and needing a proxy.
 proxy:
   httpProxy:
   httpsProxy:
@@ -500,8 +512,8 @@ containerSecurityContext:
 # If service exposed via "ingress", the Nginx will not be used
 nginx:
   image:
-    repository: docker.io/goharbor/nginx-photon
-    tag: dev
+    repository: git.m0sh1.cc/isityael/nginx-photon
+    tag: v2.17.0-yael.4
   # set the service account to be used, default if left empty
   serviceAccountName: ""
   # mount the service account token
@@ -549,8 +561,8 @@ nginx:
 
 portal:
   image:
-    repository: docker.io/goharbor/harbor-portal
-    tag: dev
+    repository: git.m0sh1.cc/isityael/harbor-portal
+    tag: v2.17.0-yael.4
   # set the service account to be used, default if left empty
   serviceAccountName: ""
   # mount the service account token
@@ -606,9 +618,13 @@ portal:
   #   command: [ 'sh', '-c', "sleep 20" ]
 
 core:
+  # Optional Deployment strategy override for core. Keep unset to use the
+  # Kubernetes default RollingUpdate behavior.
+  # updateStrategy:
+  #   type: Recreate
   image:
-    repository: docker.io/goharbor/harbor-core
-    tag: dev
+    repository: git.m0sh1.cc/isityael/harbor-core
+    tag: v2.17.0-yael.4
   # set the service account to be used, default if left empty
   serviceAccountName: ""
   # mount the service account token
@@ -622,6 +638,7 @@ core:
   ## Startup probe values
   startupProbe:
     enabled: true
+    path: /api/v2.0/ping
     initialDelaySeconds: 10
     periodSeconds: 10
     timeoutSeconds: 1
@@ -645,6 +662,11 @@ core:
   #  requests:
   #    memory: 256Mi
   #    cpu: 100m
+  ## Resources used by `enableMigrateHelmHook: true` pre-upgrade database migration
+  # migrateHelmHookResources:
+  #   requests:
+  #     memory: 256Mi
+  #     cpu: 100m
   extraEnvVars: []
   nodeSelector: {}
   tolerations: []
@@ -715,11 +737,37 @@ core:
   gdpr:
     deleteUser: false
     auditLogsCompliant: false
+  terminationGracePeriodSeconds: 120
+
+  permittedRegistryTypesForProxyCache:
+    - docker-hub
+    - harbor
+    - azure-acr
+    - ali-acr
+    - aws-ecr
+    - google-gcr
+    - docker-registry
+    - github-ghcr
+    - jfrog-artifactory
+
+  replicationAdapterWhitelist:
+    - ali-acr
+    - aws-ecr
+    - azure-acr
+    - docker-hub
+    - docker-registry
+    - github-ghcr
+    - google-gcr
+    - harbor
+    - huawei-SWR
+    - jfrog-artifactory
+    - tencent-tcr
+    - volcengine-cr
 
 jobservice:
   image:
-    repository: docker.io/goharbor/harbor-jobservice
-    tag: dev
+    repository: git.m0sh1.cc/isityael/harbor-jobservice
+    tag: v2.17.0-yael.4
   replicas: 1
   podDisruptionBudget:
     enabled: false
@@ -799,12 +847,13 @@ jobservice:
   # By default, the timeout is set to 30 minutes. This field only needs be re-configured if a longer request timeout is required. 
   # the value assigned to timeout should be a number without min, e.g. registryHttpClientTimeout: 60 configures the timeout to 60 minutes
   registryHttpClientTimeout: 30
+  terminationGracePeriodSeconds: 120
 
 registry:
   registry:
     image:
-      repository: docker.io/goharbor/registry-photon
-      tag: dev
+      repository: git.m0sh1.cc/isityael/registry-photon
+      tag: v2.17.0-yael.4
     # resources:
     #  requests:
     #    memory: 256Mi
@@ -826,8 +875,8 @@ registry:
       successThreshold: 1
   controller:
     image:
-      repository: docker.io/goharbor/harbor-registryctl
-      tag: dev
+      repository: git.m0sh1.cc/isityael/harbor-registryctl
+      tag: v2.17.0-yael.4
     # resources:
     #  requests:
     #    memory: 256Mi
@@ -891,6 +940,7 @@ registry:
   existingSecretKey: REGISTRY_HTTP_SECRET
   # If true, the registry returns relative URLs in Location headers. The client is responsible for resolving the correct URL.
   relativeurls: false
+  terminationGracePeriodSeconds: 120
   credentials:
     username: "harbor_registry_user"
     password: "harbor_registry_password"
@@ -924,9 +974,9 @@ trivy:
   enabled: true
   image:
     # repository the repository for Trivy adapter image
-    repository: docker.io/goharbor/trivy-adapter-photon
+    repository: git.m0sh1.cc/isityael/harbor-trivy-adapter
     # tag the tag for Trivy adapter image
-    tag: dev
+    tag: v2.17.0-yael.5
   # set the service account to be used, default if left empty
   serviceAccountName: ""
   # mount the service account token
@@ -1048,8 +1098,8 @@ database:
   type: internal
   internal:
     image:
-      repository: docker.io/goharbor/harbor-db
-      tag: dev
+      repository: git.m0sh1.cc/isityael/harbor-db
+      tag: v2.17.0-yael.4
     # set the service account to be used, default if left empty
     serviceAccountName: ""
     # mount the service account token
@@ -1102,14 +1152,17 @@ database:
       #  requests:
       #    memory: 128Mi
       #    cpu: 100m
+      #
+    terminationGracePeriodSeconds: 120
   external:
     host: "192.168.0.1"
     port: "5432"
     username: "user"
     password: "password"
     coreDatabase: "registry"
-    # if using existing secret, the key must be "password"
+    # if using existing secret, configure the password key below
     existingSecret: ""
+    existingSecretPasswordKey: password
     # "disable" - No SSL
     # "require" - Always SSL (skip verification)
     # "verify-ca" - Always SSL (verify that the certificate presented by the
@@ -1136,8 +1189,8 @@ redis:
   type: internal
   internal:
     image:
-      repository: docker.io/goharbor/redis-photon
-      tag: dev
+      repository: git.m0sh1.cc/isityael/valkey-photon
+      tag: v2.17.0-yael.4
     # set the service account to be used, default if left empty
     serviceAccountName: ""
     # mount the service account token
@@ -1183,6 +1236,7 @@ redis:
     trivyAdapterIndex: "5"
     # harborDatabaseIndex: "6"
     # cacheLayerDatabaseIndex: "7"
+    terminationGracePeriodSeconds: 120
   external:
     # support redis, redis+sentinel
     # addr for redis: <host_redis>:<port_redis>
@@ -1220,8 +1274,8 @@ redis:
 
 exporter:
   image:
-    repository: docker.io/goharbor/harbor-exporter
-    tag: dev
+    repository: git.m0sh1.cc/isityael/harbor-exporter
+    tag: v2.17.0-yael.4
   serviceAccountName: ""
   # mount the service account token
   automountServiceAccountToken: false

@@ -22,10 +22,15 @@ metadata:
 {{ toYaml $route.annotations | indent 4 }}
 {{- end }}
 spec:
+  {{- if not $route.parentRefs }}
+    {{- fail "expose.route.parentRefs must be set when expose.type is \"route\": an HTTPRoute with no parentRefs attaches to no Gateway and cannot serve traffic." }}
+  {{- end }}
   parentRefs:
-  {{- toYaml $route.parentRefs | nindent 2 }}
+    {{- toYaml $route.parentRefs | nindent 4 }}
+  {{- with $route.hosts }}
   hostnames:
-  {{- toYaml $route.hosts | nindent 2 }}
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
   rules:
   - matches:
     - path:
@@ -40,6 +45,10 @@ spec:
     - path:
         type: {{ .path_type }}
         value: {{ .controller_path }}
+{{- with $route.filters }}
+    filters:
+    {{- toYaml . | nindent 4 }}
+{{- end }}
     backendRefs:
     - name: {{ template "harbor.core" . }}
       namespace: {{ .Release.Namespace | quote }}
@@ -47,10 +56,18 @@ spec:
       kind: Service
       weight: 1
       port: {{ template "harbor.core.servicePort" . }}
+    {{- with $route.timeouts }}
+    timeouts:
+      {{- toYaml . | nindent 6 }}
+    {{- end }}
   - matches:
     - path:
         type: {{ .path_type }}
         value: {{ .portal_path }}
+{{- with $route.filters }}
+    filters:
+    {{- toYaml . | nindent 4 }}
+{{- end }}
     backendRefs:
     - name: {{ template "harbor.portal" . }}
       namespace: {{ .Release.Namespace | quote }}
@@ -58,4 +75,8 @@ spec:
       kind: Service
       weight: 1
       port: {{ template "harbor.portal.servicePort" . }}
+    {{- with $route.timeouts }}
+    timeouts:
+      {{- toYaml . | nindent 6 }}
+    {{- end }}
 {{- end }}

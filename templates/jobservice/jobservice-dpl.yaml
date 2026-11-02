@@ -53,7 +53,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       automountServiceAccountToken: {{ .Values.jobservice.automountServiceAccountToken | default false }}
-      terminationGracePeriodSeconds: 120
+      terminationGracePeriodSeconds: {{ .Values.jobservice.terminationGracePeriodSeconds }}
 {{- with .Values.jobservice.topologySpreadConstraints}}
       topologySpreadConstraints:
 {{- range . }}
@@ -70,7 +70,7 @@ spec:
       {{- end }}
       containers:
       - name: jobservice
-        image: {{ .Values.jobservice.image.repository }}:{{ .Values.jobservice.image.tag }}
+        image: {{ include "harbor.image" (dict "image" .Values.jobservice.image "root" .) }}
         imagePullPolicy: {{ .Values.imagePullPolicy }}
         livenessProbe:
           httpGet:

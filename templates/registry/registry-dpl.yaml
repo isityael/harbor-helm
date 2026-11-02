@@ -56,7 +56,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       automountServiceAccountToken: {{ .Values.registry.automountServiceAccountToken | default false }}
-      terminationGracePeriodSeconds: 120
+      terminationGracePeriodSeconds: {{ .Values.registry.terminationGracePeriodSeconds }}
 {{- with .Values.registry.topologySpreadConstraints}}
       topologySpreadConstraints:
 {{- range . }}
@@ -73,7 +73,7 @@ spec:
       {{- end }}
       containers:
       - name: registry
-        image: {{ .Values.registry.registry.image.repository }}:{{ .Values.registry.registry.image.tag }}
+        image: {{ include "harbor.image" (dict "image" .Values.registry.registry.image "root" .) }}
         imagePullPolicy: {{ .Values.imagePullPolicy }}
         livenessProbe:
           httpGet:
@@ -210,7 +210,7 @@ spec:
 {{ include "harbor.caBundleVolumeMount" . | indent 8 }}
         {{- end }}
       - name: registryctl
-        image: {{ .Values.registry.controller.image.repository }}:{{ .Values.registry.controller.image.tag }}
+        image: {{ include "harbor.image" (dict "image" .Values.registry.controller.image "root" .) }}
         imagePullPolicy: {{ .Values.imagePullPolicy }}
         livenessProbe:
           httpGet:

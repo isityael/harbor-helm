@@ -10,6 +10,10 @@ metadata:
 spec:
   replicas: {{ .Values.core.replicas }}
   revisionHistoryLimit: {{ .Values.core.revisionHistoryLimit }}
+{{- with .Values.core.updateStrategy }}
+  strategy:
+{{ toYaml . | indent 4 }}
+{{- end }}
   selector:
     matchLabels:
 {{ include "harbor.matchLabels" . | indent 6 }}
@@ -47,7 +51,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       automountServiceAccountToken: {{ .Values.core.automountServiceAccountToken | default false }}
-      terminationGracePeriodSeconds: 120
+      terminationGracePeriodSeconds: {{ .Values.core.terminationGracePeriodSeconds }}
 {{- with .Values.core.topologySpreadConstraints}}
       topologySpreadConstraints:
 {{- range . }}
@@ -64,12 +68,12 @@ spec:
       {{- end }}
       containers:
       - name: core
-        image: {{ .Values.core.image.repository }}:{{ .Values.core.image.tag }}
+        image: {{ include "harbor.image" (dict "image" .Values.core.image "root" .) }}
         imagePullPolicy: {{ .Values.imagePullPolicy }}
         {{- if .Values.core.startupProbe.enabled }}
         startupProbe:
           httpGet:
-            path: /api/v2.0/ping
+            path: {{ .Values.core.startupProbe.path }}
             scheme: {{ include "harbor.component.scheme" . | upper }}
             port: {{ template "harbor.core.containerPort" . }}
           initialDelaySeconds: {{ .Values.core.startupProbe.initialDelaySeconds }}
@@ -140,7 +144,7 @@ spec:
             valueFrom:
               secretKeyRef:
                 name: {{ .Values.database.external.existingSecret }}
-                key: password
+                key: {{ .Values.database.external.existingSecretPasswordKey }}
           {{- end }}
           {{- if .Values.registry.credentials.existingSecret }}
           - name: REGISTRY_CREDENTIAL_PASSWORD

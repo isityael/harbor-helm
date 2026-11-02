@@ -42,14 +42,14 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       automountServiceAccountToken: {{ .Values.database.internal.automountServiceAccountToken | default false }}
-      terminationGracePeriodSeconds: 120
+      terminationGracePeriodSeconds: {{ .Values.database.internal.terminationGracePeriodSeconds }}
       initContainers:
       # with "fsGroup" set, each time a volume is mounted, Kubernetes must recursively chown() and chmod() all the files and directories inside the volume
       # this causes the postgresql reports the "data directory /var/lib/postgresql/data/pgdata has group or world access" issue when using some CSIs e.g. Ceph
       # use this init container to correct the permission
       # as "fsGroup" applied before the init container running, the container has enough permission to execute the command
       - name: "data-permissions-ensurer"
-        image: {{ .Values.database.internal.image.repository }}:{{ .Values.database.internal.image.tag }}
+        image: {{ include "harbor.image" (dict "image" .Values.database.internal.image "root" .) }}
         imagePullPolicy: {{ .Values.imagePullPolicy }}
         {{- if not (empty .Values.containerSecurityContext) }}
         securityContext: {{ .Values.containerSecurityContext | toYaml | nindent 10 }}
@@ -69,7 +69,7 @@ spec:
       {{- end }}
       containers:
       - name: database
-        image: {{ .Values.database.internal.image.repository }}:{{ .Values.database.internal.image.tag }}
+        image: {{ include "harbor.image" (dict "image" .Values.database.internal.image "root" .) }}
         imagePullPolicy: {{ .Values.imagePullPolicy }}
         {{- if not (empty .Values.containerSecurityContext) }}
         securityContext: {{ .Values.containerSecurityContext | toYaml | nindent 10 }}

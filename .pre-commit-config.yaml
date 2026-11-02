@@ -1,0 +1,10 @@
+---
+repos:
+  - repo: local
+    hooks:
+      - id: chart-version-bump
+        name: bump chart version for changed values/templates
+        entry: .ci/pre-commit/chart-version-bump.sh
+        language: system
+        pass_filenames: false
+        files: ^(values[^/]*\.ya?ml|templates/)
