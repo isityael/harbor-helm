@@ -5,7 +5,7 @@ This is a **fork of [goharbor/harbor-helm](https://github.com/goharbor/harbor-he
 ## Purpose
 
 Carry unreleased upstream fixes and cherry-picked PRs that upstream maintainers haven't merged.
-Published as an OCI Helm chart to `oci://ghcr.io/isityael/charts/harbor`.
+Published as an OCI Helm chart to `oci://git.m0sh1.cc/isityael/charts/harbor`.
 
 ## Key rules
 
@@ -45,7 +45,7 @@ git rebase upstream/main
 ```bash
 git tag v<version>
 git push origin v<version>
-# GHA workflow packages and pushes to ghcr.io/isityael/charts
+# GHA workflow packages and pushes to git.m0sh1.cc/isityael/charts
 ```
 
 ## Validation
