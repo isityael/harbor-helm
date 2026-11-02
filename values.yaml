@@ -513,7 +513,7 @@ containerSecurityContext:
 nginx:
   image:
     repository: docker.io/goharbor/nginx-photon
-    tag: dev@sha256:02a44987639ab75fe817c05a3ab3f5a1cfa487421bda0022dfeafb026a96efc4
+    tag: dev
   # set the service account to be used, default if left empty
   serviceAccountName: ""
   # mount the service account token
@@ -562,7 +562,7 @@ nginx:
 portal:
   image:
     repository: docker.io/goharbor/harbor-portal
-    tag: dev@sha256:a358fb9c4e888dab2bc8987866a12b5112fd327388c9c335ac5599d72d589611
+    tag: dev
   # set the service account to be used, default if left empty
   serviceAccountName: ""
   # mount the service account token
@@ -624,7 +624,7 @@ core:
   #   type: Recreate
   image:
     repository: docker.io/goharbor/harbor-core
-    tag: dev@sha256:7f05be77ee8136fed2746a016a56fbf2548cb217977cc6eefed5ae84f5be95c6
+    tag: dev
   # set the service account to be used, default if left empty
   serviceAccountName: ""
   # mount the service account token
@@ -767,7 +767,7 @@ core:
 jobservice:
   image:
     repository: docker.io/goharbor/harbor-jobservice
-    tag: dev@sha256:434caa69c4cc52373f12d32ff45a5b7b2ad0fcf6a0a86ffec5adf0a76fcce09d
+    tag: dev
   replicas: 1
   podDisruptionBudget:
     enabled: false
@@ -853,7 +853,7 @@ registry:
   registry:
     image:
       repository: docker.io/goharbor/registry-photon
-      tag: dev@sha256:35060dcb1d54b332cddbfd1429d2af83480b894a78b51b3011f1a27a0832b16b
+      tag: dev
     # resources:
     #  requests:
     #    memory: 256Mi
@@ -876,7 +876,7 @@ registry:
   controller:
     image:
       repository: docker.io/goharbor/harbor-registryctl
-      tag: dev@sha256:62b9459c9647af880af217a10be1265d925bafe7ac076a260f2d2bacc96e65b5
+      tag: dev
     # resources:
     #  requests:
     #    memory: 256Mi
@@ -976,7 +976,7 @@ trivy:
     # repository the repository for Trivy adapter image
     repository: ghcr.io/isityael/harbor-trivy-adapter
     # tag the tag for Trivy adapter image
-    tag: v2.17.0-yael.4@sha256:a1095f7eb231c33d7b89d31e5432ee9ad876ba8d6e44b30f9316875b7375b849
+    tag: v2.17.0-yael.4
   # set the service account to be used, default if left empty
   serviceAccountName: ""
   # mount the service account token
@@ -1099,7 +1099,7 @@ database:
   internal:
     image:
       repository: docker.io/goharbor/harbor-db
-      tag: dev@sha256:105142fd6aa269478630ce74cec58b2de23bfc480a7750bf4b6f1976d80959b7
+      tag: dev
     # set the service account to be used, default if left empty
     serviceAccountName: ""
     # mount the service account token
@@ -1190,7 +1190,7 @@ redis:
   internal:
     image:
       repository: docker.io/goharbor/valkey-photon
-      tag: dev@sha256:1bce6d7bc154dc84fac8664e2f8e0ebb66a979b6ca822ff873263b33242ff4e4
+      tag: dev
     # set the service account to be used, default if left empty
     serviceAccountName: ""
     # mount the service account token
@@ -1275,7 +1275,7 @@ redis:
 exporter:
   image:
     repository: docker.io/goharbor/harbor-exporter
-    tag: dev@sha256:ddf90e23032165f38b5515ca459c1f95f63ee702200cfe1123601c173820cc5a
+    tag: dev
   serviceAccountName: ""
   # mount the service account token
   automountServiceAccountToken: false
